@@ -6,8 +6,10 @@
 
 Add this lines into your global.css file.
 
+```CSS
 @layer base {
-html {
-font-family: "Proxima Nova", system-ui, sans-serif;
+  html {
+    font-family: "Proxima Nova", system-ui, sans-serif;
+  }
 }
-}
+```

@@ -132,3 +132,7 @@
     font-variation-settings: "wdth" 100;
   }
 }
+
+.heading-1 {
+  @apply font-display scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
+}

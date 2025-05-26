@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HomePage Snapshots > matches snapshots 1`] = `
+<div
+  class="flex flex-1 flex-col items-center px-2"
+>
+  <h1
+    class="font-display mt-15 flex flex-wrap justify-center gap-2 p-2"
+    data-testid="main-heading"
+  >
+    <span>
+      Shop Smarter,
+    </span>
+    <span>
+      Live Better
+    </span>
+  </h1>
+  <div
+    class="mt-8"
+    data-testid="carousel"
+  >
+    Carousel Component
+  </div>
+  <button
+    class="mt-8 w-full max-w-xs cursor-pointer"
+    data-testid="shop-now-button"
+  >
+    Shop Now
+  </button>
+</div>
+`;

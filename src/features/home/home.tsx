@@ -1,5 +1,4 @@
 import CarouselShad from "@/components/carousel-shad/carousel-shad";
-import Carousel from "@/components/carousel/carousel";
 import { TypographyH1 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 

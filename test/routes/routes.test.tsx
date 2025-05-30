@@ -30,42 +30,44 @@ vi.mock("@/features/cart/cart", () => ({
   default: () => <div>Mock Cart</div>,
 }));
 
+vi.mock("sonner", () => ({
+  Toaster: () => <div data-testid="mock-toaster" />,
+  toast: vi.fn(),
+}));
+
+const renderRoute = (path: string = "/") => {
+  const router = createMemoryRouter(routes, { initialEntries: [path] });
+  render(<RouterProvider router={router} />);
+};
+
 describe("Router with mocked pages", () => {
   it("renders mocked Home page", () => {
-    const router = createMemoryRouter(routes, { initialEntries: ["/"] });
-
-    render(<RouterProvider router={router} />);
+    renderRoute("/");
 
     expect(screen.getByText(/mock home/i)).toBeInTheDocument();
   });
 
   it("renders mocked Products page", () => {
-    const router = createMemoryRouter(routes, {
-      initialEntries: ["/products"],
-    });
+    renderRoute("/products");
 
-    render(<RouterProvider router={router} />);
-
-    expect(screen.getByText(/mock product list/i));
+    expect(screen.getByText(/mock product list/i)).toBeInTheDocument();
   });
 
   it("renders mocked Product page", () => {
-    const router = createMemoryRouter(routes, {
-      initialEntries: ["/product/123"],
-    });
+    renderRoute("/product/123");
 
-    render(<RouterProvider router={router} />);
-
-    expect(screen.getByText(/mock product details/i));
+    expect(screen.getByText(/mock product details/i)).toBeInTheDocument();
   });
 
   it("renders mocked Cart page", () => {
-    const router = createMemoryRouter(routes, {
-      initialEntries: ["/cart"],
-    });
+    renderRoute("/cart");
 
-    render(<RouterProvider router={router} />);
+    expect(screen.getByText(/mock cart/i)).toBeInTheDocument();
+  });
 
-    expect(screen.getByText(/mock cart/i));
+  it("renders layout with Toaster", () => {
+    renderRoute();
+
+    expect(screen.getByTestId("mock-toaster")).toBeInTheDocument();
   });
 });

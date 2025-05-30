@@ -75,7 +75,7 @@ export function NavbarMenu() {
 
   return (
     <NavigationMenu>
-      <NavigationMenuList>
+      <NavigationMenuList className="gap-4">
         {links.map(({ to, label }, index) => (
           <NavigationMenuItem key={index}>
             <NavLink to={to}>
@@ -83,7 +83,11 @@ export function NavbarMenu() {
                 <NavigationMenuLink
                   asChild
                   active={isActive}
-                  className={cn("rounded-none", isActive && "bg-accent")}
+                  className={cn(
+                    "hover:border-foreground/25 rounded-none border-b-1 border-transparent p-px hover:border-b-1 hover:bg-transparent",
+                    isActive &&
+                      "border-foreground/85 hover:border-foreground/85 border-b-1",
+                  )}
                 >
                   <span>{label.toUpperCase()}</span>
                 </NavigationMenuLink>

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="w-full px-2 py-2 text-center">
+    <footer className="mt-auto w-full px-2 py-2 text-center">
       <p className="text-foreground/80 text-xs">
         2025 &copy; Odin Project Assignment by{" "}
         <a

@@ -11,20 +11,39 @@ import {
 } from "../ui/carousel";
 import { cn } from "@/lib/utils";
 
-export default function CarouselShad({ className }: { className: string }) {
+type SlideType = {
+  category: string;
+  image: string;
+};
+
+type CarouselPropsType = {
+  className?: string;
+  slides: SlideType[];
+};
+
+export default function CarouselShad({ className, slides }: CarouselPropsType) {
   return (
     <Carousel
       opts={{ loop: true }}
-      plugins={[Autoplay({ delay: 5000, stopOnInteraction: true }), Fade()]}
-      className={cn("w-full max-w-xs", className)}
+      plugins={[Autoplay({ delay: 4000, stopOnInteraction: true }), Fade()]}
+      className={cn("w-full", className)}
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {slides.map(({ category, image }, index) => (
           <CarouselItem key={index} className="basis-full">
             <div className="p-0">
-              <Card className="overflow-hidden rounded-sm p-0">
-                <CardContent className="flex aspect-[3/4] items-center justify-center bg-blue-400 p-6 text-9xl text-amber-300">
-                  <span>{index + 1}</span>
+              <Card className="flex flex-row justify-center overflow-hidden rounded-xs border-none p-0">
+                <CardContent className="relative flex aspect-[5/7] w-full items-center justify-center p-0 md:aspect-[16/9]">
+                  <div className="h-full w-full">
+                    <img
+                      src={image}
+                      alt="Category photo"
+                      className="block h-full w-full object-cover"
+                    />
+                    <span className="text-background/25 absolute bottom-1/7 left-1/2 block -translate-x-1/2 text-4xl">
+                      {category.toUpperCase()}
+                    </span>
+                  </div>
                 </CardContent>
               </Card>
             </div>

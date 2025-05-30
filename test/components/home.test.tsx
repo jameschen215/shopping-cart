@@ -4,6 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import HomePage from "@/features/home/home";
+import { MemoryRouter } from "react-router-dom";
 
 // Mock the shadcn/ui components
 vi.mock("@/components/typography", () => ({
@@ -29,7 +30,7 @@ vi.mock("@/components/ui/button", () => ({
     className?: string;
     children: ReactNode;
   }) => (
-    <button className={className} data-testid="shop-now-button" {...props}>
+    <button className={className} data-testid="button" {...props}>
       {children}
     </button>
   ),
@@ -45,7 +46,7 @@ vi.mock("@/components/carousel-shad/carousel-shad", () => ({
 
 describe("HomePage", () => {
   it("renders the main heading with correct text", () => {
-    render(<HomePage />);
+    render(<HomePage />, { wrapper: MemoryRouter });
 
     const heading = screen.getByTestId("main-heading");
     expect(heading).toBeInTheDocument();
@@ -53,24 +54,25 @@ describe("HomePage", () => {
   });
 
   it("renders carousel component", () => {
-    render(<HomePage />);
+    render(<HomePage />, { wrapper: MemoryRouter });
 
     const carousel = screen.getByTestId("carousel");
     expect(carousel).toBeInTheDocument();
   });
 
-  it("renders shop now button with correct text", () => {
-    render(<HomePage />);
+  it("renders two navigation buttons", () => {
+    render(<HomePage />, { wrapper: MemoryRouter });
 
-    const button = screen.getByTestId("shop-now-button");
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent("Shop Now");
+    const buttons = screen.getAllByTestId("button");
+    expect(buttons).toHaveLength(2);
+    expect(buttons[0]).toHaveTextContent(/shop now/i);
+    expect(buttons[1]).toHaveTextContent(/sign in/i);
   });
 });
 
 describe("HomePage Snapshots", () => {
   it("matches snapshots", () => {
-    const { container } = render(<HomePage />);
+    const { container } = render(<HomePage />, { wrapper: MemoryRouter });
 
     expect(container.firstChild).toMatchSnapshot();
   });

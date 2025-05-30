@@ -1,4 +1,4 @@
-import App from "@/App";
+import App from "@/components/App";
 import CartPage from "@/features/cart/cart";
 import HomePage from "@/features/home/home";
 import ProductPage from "@/features/product/product";
@@ -7,23 +7,23 @@ import ProductsPage from "@/features/products/products";
 export const routes = [
   {
     path: "/",
-    Component: App,
+    element: <App />,
     children: [
       {
         index: true,
-        Component: HomePage,
+        element: <HomePage />,
       },
       {
         path: "products",
-        Component: ProductsPage,
+        element: <ProductsPage />,
       },
       {
         path: "product/:productId",
-        Component: ProductPage,
+        element: <ProductPage />,
       },
       {
         path: "cart",
-        Component: CartPage,
+        element: <CartPage />,
       },
     ],
   },

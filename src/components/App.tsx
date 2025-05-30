@@ -1,18 +1,20 @@
 import { Outlet } from "react-router-dom";
-// import Navbar from "./components/navbar/navbar";
-import Footer from "./components/footer/footer";
+import Footer from "@/components/footer/footer";
 import Navbar from "@/components/navbar/navbar";
 import { Toaster } from "@/components/ui/sonner";
 
 export default function App() {
   return (
-    <div className="flex min-h-screen w-full flex-col items-center">
+    <div className="bg-background container mx-auto flex min-h-screen flex-col shadow-xl">
       <Navbar />
+
       <main className="flex w-full flex-1 flex-col">
         <Outlet />
       </main>
+
       <Footer />
-      <Toaster position="top-center" />
+
+      <Toaster position="top-center" className="hidden" />
     </div>
   );
 }

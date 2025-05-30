@@ -230,7 +230,7 @@ function CarouselPrevious({
       className={cn(
         "text-background/75 hover:text-background hover:bg-foreground/25 bg-foreground/5 absolute size-8 cursor-pointer rounded-full border border-none transition-colors duration-250",
         orientation === "horizontal"
-          ? "top-1/2 left-3 -translate-y-1/2"
+          ? "top-1/2 left-2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className,
       )}
@@ -260,7 +260,7 @@ function CarouselNext({
       className={cn(
         "text-background/75 hover:text-background hover:bg-foreground/25 bg-foreground/5 absolute size-8 cursor-pointer rounded-full border border-none transition-colors duration-250",
         orientation === "horizontal"
-          ? "top-1/2 right-3 -translate-y-1/2"
+          ? "top-1/2 right-2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className,
       )}

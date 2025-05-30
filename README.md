@@ -66,3 +66,32 @@ This happened because VSCode's TypeScript language service does not automaticall
      ```
 
 3. Restart TS Server in VSCode (`Ctrl + Shift + P` → “TypeScript: Restart TS Server”)
+
+### Image Fitting Inside a Fixed-Size Card (TailwindCSS)
+
+**GOAL:** Make an image completely fill a fixed-size card:
+
+- If there's space on the sides, the image should be full width.
+- Otherwise, it should be full height.
+
+**SOLUTION:** TailwindCSS + HTML Solution
+
+```html
+<div class="h-64 w-64 overflow-hidden">
+  <img src="your-image.jpg" class="h-full w-full object-cover" />
+</div>
+```
+
+# Acknowledge
+
+## Teslariu Mihai
+
+Photo by <a href="https://unsplash.com/@mihaiteslariu0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Teslariu Mihai</a> on <a href="https://unsplash.com/photos/a-woman-wearing-a-hat-and-a-jacket-lvOy6kAaXXM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+## Mubariz Mehdizadeh - for men
+
+Photo by <a href="https://unsplash.com/@mehdizadeh?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Mubariz Mehdizadeh</a> on <a href="https://unsplash.com/photos/man-looking-sideways-t3zrEm88ehc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+
+## YY TEOH - for kids
+
+Photo by <a href="https://unsplash.com/@teacheryy?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">YY TEOH</a> on <a href="https://unsplash.com/photos/a-little-girl-in-a-white-dress-playing-with-a-frisbee-PK_SHakVl04?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>

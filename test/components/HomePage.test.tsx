@@ -3,7 +3,7 @@ import { type ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import HomePage from "@/features/home/home";
+import HomePage from "@/features/home/HomePage";
 import { MemoryRouter } from "react-router-dom";
 
 // Mock the shadcn/ui components
@@ -36,7 +36,7 @@ vi.mock("@/components/ui/button", () => ({
   ),
 }));
 
-vi.mock("@/components/carousel-shad/carousel-shad", () => ({
+vi.mock("@/components/carousel-shad/CarouselFromShad", () => ({
   default: ({ className }: { className?: string }) => (
     <div className={className} data-testid="carousel">
       Carousel Component

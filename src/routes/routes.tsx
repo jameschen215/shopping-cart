@@ -1,8 +1,8 @@
 import App from "@/components/App";
-import CartPage from "@/features/cart/cart";
-import HomePage from "@/features/home/home";
-import ProductPage from "@/features/product/product";
-import ProductsPage from "@/features/products/products";
+import CartPage from "@/features/cart/CartPage";
+import HomePage from "@/features/home/HomePage";
+import ProductsPage from "@/features/products/ProductsPage";
+import ProductPage from "@/features/product/ProductPage";
 
 export const routes = [
   {

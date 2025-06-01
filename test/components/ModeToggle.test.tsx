@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ModeToggle } from "@/components/mode-toggle/mode-toggle";
-import { useTheme } from "@/components/mode-toggle/theme-provider";
+import { ModeToggle } from "@/components/mode-toggle/ModeToggle";
+import { useTheme } from "@/lib/hooks";
 
 /** --- Mock Module --- */
-vi.mock("@/components/mode-toggle/theme-provider", () => ({
+vi.mock("@/lib/hooks", () => ({
   useTheme: vi.fn(),
 }));
 
@@ -19,15 +19,12 @@ describe("ModeToggle Component", () => {
       theme: "light",
       setTheme,
     });
-
     render(<ModeToggle />);
-
     const button = screen.getByRole("button", {
       name: /switch to dark theme/i,
     });
 
     expect(button).toBeInTheDocument();
-    // expect(document.documentElement).toHaveClass("light");
 
     await user.click(button);
     expect(setTheme).toHaveBeenCalledWith("dark");

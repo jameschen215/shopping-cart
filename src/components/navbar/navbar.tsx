@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle/mode-toggle";
+import { ModeToggle } from "../mode-toggle/ModeToggle";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { default as defaultAvatar } from "@/assets/images/default.jpg";
@@ -26,30 +26,10 @@ import { toast } from "sonner";
 
 export default function Navbar() {
   return (
-    <div className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-      <nav
-        className="flex h-12 w-full items-center px-4"
-        role="navigation"
-        aria-label="Main navigation"
-      >
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
+      <div className="flex h-12 w-full items-center px-4">
         {/* Left - Brand Logo */}
-        <div className="flex flex-1">
-          <NavLink
-            to="/"
-            className="focus-visible:ring-ring flex items-center space-x-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-          >
-            <img
-              src={logo}
-              alt="Odin Store logo"
-              loading="eager"
-              className="size-7"
-            />
-            <span className="font-display hidden text-lg font-medium tracking-tight sm:inline-block">
-              Odin Store
-            </span>
-            <span className="sr-only">Odin Store - Go to homepage</span>
-          </NavLink>
-        </div>
+        <BrandAndLogo />
 
         {/* Middle - Navigation Menu */}
         <NavbarMenu />
@@ -61,8 +41,8 @@ export default function Navbar() {
           {/* <AppAvatar /> */}
           <NavDropdownMenu />
         </div>
-      </nav>
-    </div>
+      </div>
+    </header>
   );
 }
 
@@ -74,7 +54,7 @@ export function NavbarMenu() {
   ];
 
   return (
-    <NavigationMenu>
+    <NavigationMenu aria-label="Main navigation">
       <NavigationMenuList className="gap-4">
         {links.map(({ to, label }, index) => (
           <NavigationMenuItem key={index}>
@@ -84,9 +64,8 @@ export function NavbarMenu() {
                   asChild
                   active={isActive}
                   className={cn(
-                    "hover:border-foreground/25 rounded-none border-b-1 border-transparent p-px hover:border-b-1 hover:bg-transparent",
-                    isActive &&
-                      "border-foreground/85 hover:border-foreground/85 border-b-1",
+                    "hover:bg-transparent hover:underline hover:decoration-2 hover:underline-offset-6",
+                    isActive && "underline decoration-2 underline-offset-6",
                   )}
                 >
                   <span>{label.toUpperCase()}</span>
@@ -135,5 +114,27 @@ function NavDropdownMenu() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+function BrandAndLogo() {
+  return (
+    <div className="flex flex-1">
+      <a
+        href="/"
+        className="focus-visible:ring-ring flex items-center space-x-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+      >
+        <img
+          src={logo}
+          alt="Odin Store logo"
+          loading="eager"
+          className="size-7"
+        />
+        <span className="font-display hidden text-lg font-medium tracking-tight sm:inline-block">
+          Odin Store
+        </span>
+        <span className="sr-only">Odin Store - Go to homepage</span>
+      </a>
+    </div>
   );
 }

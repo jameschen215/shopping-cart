@@ -1,7 +1,7 @@
-import CarouselShad from "@/components/carousel-shad/carousel-shad";
+import CarouselFromShad from "@/components/carousel-shad/CarouselFromShad";
 import { TypographyH1 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { CATEGORIES } from "@/lib/constants";
+import { HOMEPAGE_CATEGORIES } from "@/lib/constants";
 import { NavLink } from "react-router-dom";
 
 export default function HomePage() {
@@ -13,7 +13,7 @@ export default function HomePage() {
       </TypographyH1>
 
       <div className="max-w-2xs md:max-w-2xl">
-        <CarouselShad slides={CATEGORIES} />
+        <CarouselFromShad slides={HOMEPAGE_CATEGORIES} />
 
         <ButtonContainer />
       </div>

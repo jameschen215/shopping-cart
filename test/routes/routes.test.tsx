@@ -14,19 +14,19 @@ vi.mock("@/App", () => ({
   ),
 }));
 
-vi.mock("@/features/home/home", () => ({
+vi.mock("@/features/home/HomePage", () => ({
   default: () => <div>Mock Home</div>,
 }));
 
-vi.mock("@/features/products/products", () => ({
+vi.mock("@/features/products/ProductsPage", () => ({
   default: () => <div>Mock Product List</div>,
 }));
 
-vi.mock("@/features/product/product", () => ({
+vi.mock("@/features/product/ProductPage", () => ({
   default: () => <div>Mock Product Details</div>,
 }));
 
-vi.mock("@/features/cart/cart", () => ({
+vi.mock("@/features/cart/CartPage", () => ({
   default: () => <div>Mock Cart</div>,
 }));
 

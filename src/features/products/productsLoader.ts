@@ -1,8 +1,9 @@
-import type { ProductType } from "@/data/data-type";
-import { getAllProducts } from "@/data/products";
+import { getProducts } from "@/data/products";
 
-export async function productsLoader(): Promise<{ data: ProductType[] }> {
-  const data = await getAllProducts();
+export async function productsLoader({ request }: { request: Request }) {
+  const url = new URL(request.url);
+  const q = url.searchParams.get("q") || "";
+  const data = await getProducts(q);
 
-  return { data };
+  return { data, q };
 }

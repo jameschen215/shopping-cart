@@ -15,7 +15,7 @@ export default function App() {
 
       <Footer />
 
-      <Toaster position="top-center" className="hidden" />
+      <Toaster position="top-center" />
     </div>
   );
 }

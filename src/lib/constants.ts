@@ -18,8 +18,9 @@ export const HOMEPAGE_CATEGORIES = [
 ];
 
 export const CATEGORIES = [
-  { id: 1, label: "men's clothing", to: "/products/category/men" },
-  { id: 2, label: "women's clothing", to: "/products/category/women" },
-  { id: 3, label: "jewelry", to: "/products/category/jewelry" },
-  { id: 4, label: "electronics", to: "/products/category/electronics" },
+  { id: 1, label: "all", to: "/products" },
+  { id: 2, label: "men's", to: "/products/category/men" },
+  { id: 3, label: "women's", to: "/products/category/women" },
+  { id: 4, label: "jewelry", to: "/products/category/jewelry" },
+  { id: 5, label: "electronics", to: "/products/category/electronics" },
 ];

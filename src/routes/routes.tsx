@@ -3,27 +3,43 @@ import CartPage from "@/features/cart/CartPage";
 import HomePage from "@/features/home/HomePage";
 import ProductsPage from "@/features/products/ProductsPage";
 import ProductPage from "@/features/product/ProductPage";
+import { productsLoader } from "@/features/products/productsLoader";
+import ErrorPage from "@/routes/ErrorPage";
 
 export const routes = [
   {
     path: "/",
-    element: <App />,
+    Component: App,
+    ErrorBoundary: ErrorPage,
     children: [
       {
         index: true,
-        element: <HomePage />,
+        Component: HomePage,
+        ErrorBoundary: ErrorPage,
       },
       {
         path: "products",
-        element: <ProductsPage />,
+        ErrorBoundary: ErrorPage,
+        children: [
+          {
+            index: true,
+            loader: productsLoader,
+            Component: ProductsPage,
+          },
+          {
+            path: "category/:category",
+            loader: productsLoader,
+            Component: ProductsPage,
+          },
+        ],
       },
       {
         path: "product/:productId",
-        element: <ProductPage />,
+        Component: ProductPage,
       },
       {
         path: "cart",
-        element: <CartPage />,
+        Component: CartPage,
       },
     ],
   },

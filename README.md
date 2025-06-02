@@ -82,6 +82,83 @@ This happened because VSCode's TypeScript language service does not automaticall
 </div>
 ```
 
+### What does `end` mean in `<NavLink>`?
+
+In React Router, the `end` prop tells the link to match exactly — it’s like saying:
+
+> “Only mark this link as active if the current URL is exactly equal to the `to` prop.”
+
+- If your URL is `/products/category/jewelry` without `end`, then this code - `<NavLink to="/products">` will be considered active, because `/products` is a prefix of `/products/category/jewelry`.
+
+- If your URL is `/products` with `end` - `<NavLink to="/products" end={to === '/products'}>`. Now it only matches `/products` exactly, and won't be active for `/products/category/...`.
+
+When to use end?
+✅ Use it for parent routes like `/products`, `/settings`, etc.
+
+❌ Don’t use it when you want the link to stay active for subroutes.
+
+### How to make shadcn/ui NavigationMenu take up the full width of its parent?
+
+Use arbitrary properties from Tailwindcss - `<NavigationMenu className="w-full [&>div]:!w-full">` to override the `div` with inline-style from `NavigationMenuList`, which is `<div style='position: relative'>...</div>`:
+
+```tsx
+<NavigationMenu
+  aria-label="Category navigation"
+  className="w-full max-w-full [&>div]:!w-full"
+>
+  <NavigationMenuList className="flex w-full justify-between">
+    {CATEGORIES.map(({ id, label, to }) => (
+      <NavigationMenuItem key={id}>
+        <NavLink to={to} end={to === "/products"}>
+          {({ isActive }) => (
+            <NavigationMenuLink
+              asChild
+              className={cn(
+                "capitalize hover:bg-transparent hover:underline hover:underline-offset-4",
+                isActive && "underline underline-offset-4",
+              )}
+            >
+              <span>{label}</span>
+            </NavigationMenuLink>
+          )}
+        </NavLink>
+      </NavigationMenuItem>
+    ))}
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+### Handling Redirects in Toast Actions (shadcn/ui + React Router)
+
+- **Problem:**
+  The redirect() function didn't work when used inside a toast action callback.
+
+- **Why:**
+  redirect() is meant for use in React Router loaders or actions — not inside client-side event handlers.
+
+- **Solution:**
+  Use useNavigate() from React Router to imperatively navigate in event handlers instead.
+
+- **Working Example:**
+
+```tsx
+import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
+
+toast.success("Item has been added to your cart.", {
+  action: {
+    label: "Go to Cart",
+    onClick: () => navigate("/cart"),
+  },
+});
+```
+
+- **Bonus:**
+  This makes your app feel more dynamic and user-friendly. 🔥
+
+<!-- --- divider --- -->
+
 # Acknowledge
 
 ## Teslariu Mihai

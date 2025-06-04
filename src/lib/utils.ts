@@ -11,3 +11,10 @@ export function formatCurrency(price: number) {
     currency: "USD",
   }).format(price);
 }
+
+export function formatNumberToK(num: number) {
+  return new Intl.NumberFormat("en", {
+    notation: "compact",
+    compactDisplay: "short", // 'short' for 'K', 'long' for 'thousand'
+  }).format(num);
+}

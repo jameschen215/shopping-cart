@@ -1,10 +1,11 @@
 import App from "@/components/App";
-import CartPage from "@/features/cart/CartPage";
-import HomePage from "@/features/home/HomePage";
-import ProductsPage from "@/features/products/ProductsPage";
-import ProductPage from "@/features/product/ProductPage";
-import { productsLoader } from "@/features/products/productsLoader";
-import ErrorPage from "@/routes/ErrorPage";
+import HomePage from "@/routes/home/HomePage";
+import CartPage from "@/routes/cart/CartPage";
+import ErrorPage from "@/routes/error/ErrorPage";
+import ProductPage from "@/routes/product/ProductPage";
+import ProductsPage from "@/routes/products/ProductsPage";
+import { productsLoader } from "@/routes/products/productsLoader";
+import productLoader from "@/routes/product/productLoader";
 
 export const routes = [
   {
@@ -36,6 +37,8 @@ export const routes = [
       {
         path: "product/:productId",
         Component: ProductPage,
+        ErrorBoundary: ErrorPage,
+        loader: productLoader,
       },
       {
         path: "cart",

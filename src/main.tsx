@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import "@/assets/styles/global.css";
 import { ThemeProvider } from "./components/mode-toggle/ThemeProvider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { routes } from "./routes/routes";
+import { routes } from "@/routes/routes";
 
 const router = createBrowserRouter(routes);
 

@@ -2,8 +2,8 @@ import { useLoaderData, useNavigation, useParams } from "react-router-dom";
 import CategoryNavigation from "./CategoryNavigation";
 
 import type { ProductType } from "@/data/data-type";
-import ProductCards from "@/features/products/ProductCards";
-import SearchForm from "@/features/products/SearchForm";
+import ProductCards from "@/routes/products/ProductCards";
+import SearchForm from "@/routes/products/SearchForm";
 import Loading from "./Loading";
 
 export default function ProductsPage() {

@@ -18,3 +18,15 @@ export async function getProducts(query?: string): Promise<ProductType[]> {
 
   return data;
 }
+
+export async function getProduct(id: number) {
+  const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+
+  if (!response.ok) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
+  const data: ProductType = await response.json();
+
+  return data;
+}

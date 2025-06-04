@@ -24,11 +24,8 @@ export default function ProductCards({
   return (
     <div className="my-6 grid w-full [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))] place-items-center gap-5">
       {products.map((product) => (
-        <NavLink to={`/product/${product.id}`}>
-          <Card
-            key={product.id}
-            className="gap-4 rounded-sm px-5 shadow-md transition-transform duration-200 hover:scale-[1.02]"
-          >
+        <NavLink to={`/product/${product.id}`} key={product.id}>
+          <Card className="gap-4 rounded-sm px-5 shadow-md transition-transform duration-200 hover:scale-[1.02]">
             <CardContent className="p-0">
               <div className="flex aspect-square w-full items-center justify-center overflow-hidden">
                 <img

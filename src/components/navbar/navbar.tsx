@@ -1,17 +1,15 @@
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
 import { NavLink } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
 import { Button } from "@/components/ui/button";
-import { LogOut, Settings } from "lucide-react";
+import {
+  LogIn,
+  LogOut,
+  Settings,
+  ShoppingCart,
+  User,
+  UserCheck,
+} from "lucide-react";
 import { ModeToggle } from "../mode-toggle/ModeToggle";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   DropdownMenu,
@@ -21,104 +19,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/hooks";
+import { Badge } from "../ui/badge";
 
 export default function Navbar() {
-  const { token } = useAuth();
-
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-      <div className="flex h-12 w-full items-center px-4">
-        {/* Left - Brand Logo */}
+      <div className="flex h-14 w-full items-center px-4">
         <BrandAndLogo />
 
-        {/* Middle - Navigation Menu */}
-        <NavbarMenu />
-
-        {/* Right - Buttons */}
         <div className="flex flex-1 items-center justify-end space-x-2">
-          {/* Theme toggle */}
+          <CartButton />
           <ModeToggle />
-
-          {/* <AppAvatar /> */}
-          {token ? <NavDropdownMenu /> : "Sign up"}
+          <NavDropdownMenu />
         </div>
       </div>
     </header>
-  );
-}
-
-export function NavbarMenu() {
-  const links = [
-    // { to: "/", label: "Home" },
-    { to: "/products", label: "Shop" },
-    { to: "/cart", label: "Cart" },
-    { to: "/login", label: "Login" },
-  ];
-
-  const { token } = useAuth();
-
-  return (
-    <NavigationMenu aria-label="Main navigation">
-      <NavigationMenuList className="gap-4">
-        {links.map(({ to, label }, index) => {
-          if (to === "/login" && token) {
-            return null;
-          }
-
-          return (
-            <NavigationMenuItem key={index}>
-              <NavLink to={to}>
-                {({ isActive }) => (
-                  <NavigationMenuLink
-                    asChild
-                    active={isActive}
-                    className={cn(
-                      "hover:bg-transparent hover:underline hover:decoration-2 hover:underline-offset-6",
-                      isActive && "underline decoration-2 underline-offset-6",
-                    )}
-                  >
-                    <span>{label.toUpperCase()}</span>
-                  </NavigationMenuLink>
-                )}
-              </NavLink>
-            </NavigationMenuItem>
-          );
-        })}
-      </NavigationMenuList>
-    </NavigationMenu>
-  );
-}
-
-type AppAvatarPropsType = {
-  firstName: string;
-  lastName: string;
-  imageUrl?: string;
-};
-
-export function AppAvatar({
-  firstName,
-  lastName,
-  imageUrl,
-}: AppAvatarPropsType) {
-  const name = firstName + " " + lastName;
-  return (
-    <Avatar
-      data-testid="user-photo"
-      className="bg-foreground/5 flex items-center justify-center"
-    >
-      {imageUrl ? (
-        <AvatarImage src={imageUrl} alt="User photo" />
-      ) : (
-        <span className="text-sm">
-          {firstName.slice(0, 1).toUpperCase()}
-          {lastName.slice(0, 1).toUpperCase()}
-        </span>
-      )}
-
-      <AvatarFallback className="sr-only">
-        <span className="capitalize">{name ?? "no name"}</span>
-      </AvatarFallback>
-    </Avatar>
   );
 }
 
@@ -130,38 +45,48 @@ function NavDropdownMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="cursor-pointer">
-        <AppAvatar
-          firstName={currentUser.name.firstname}
-          lastName={currentUser.name.lastname}
-        />
+      <DropdownMenuTrigger className="cursor-pointer" asChild>
+        <Button variant={"ghost"} size={"icon"}>
+          {currentUser ? (
+            <UserCheck className="size-5 text-blue-500" strokeWidth={1.5} />
+          ) : (
+            <User className="size-5" strokeWidth={1.5} />
+          )}
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>
-          <Button
-            variant={"ghost"}
-            // onClick={() => {
-            //   logout();
-            //   toast.warning("You are logged out.");
-            // }}
-          >
-            <Settings />
-            Settings
-          </Button>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Button
-            variant={"ghost"}
-            onClick={() => {
-              logout();
-              toast.warning("You are logged out.");
-            }}
-          >
-            <LogOut />
-            Logout
-          </Button>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+
+      {/* Logged in */}
+      {currentUser ? (
+        <DropdownMenuContent>
+          <DropdownMenuItem>
+            <Button variant={"ghost"}>
+              <Settings />
+              Settings
+            </Button>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Button
+              variant={"ghost"}
+              onClick={() => {
+                logout();
+                toast.warning("You are logged out.");
+              }}
+            >
+              <LogOut />
+              Logout
+            </Button>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      ) : (
+        <DropdownMenuContent>
+          <DropdownMenuItem asChild>
+            <NavLink to={"/login"} className="cursor-pointer">
+              <LogIn />
+              Sign in
+            </NavLink>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      )}
     </DropdownMenu>
   );
 }
@@ -185,5 +110,29 @@ function BrandAndLogo() {
         <span className="sr-only">Odin Store - Go to homepage</span>
       </a>
     </div>
+  );
+}
+
+function CartButton() {
+  const cartItemCount = 7;
+
+  return (
+    <Button variant="ghost" size="icon" className="relative">
+      <NavLink
+        to="/cart"
+        aria-label={`Shopping cart with ${cartItemCount} items`}
+        // className="focus-visible:ring-ring rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+      >
+        <ShoppingCart className="size-5" strokeWidth={1.5} />
+        {cartItemCount > 0 && (
+          <Badge
+            className="absolute -top-1 -right-1 flex size-5 items-center justify-center overflow-visible bg-transparent p-0 text-xs font-medium text-rose-500"
+            aria-hidden="true"
+          >
+            {cartItemCount > 99 ? "99+" : cartItemCount}
+          </Badge>
+        )}
+      </NavLink>
+    </Button>
   );
 }

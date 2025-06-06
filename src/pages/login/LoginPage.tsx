@@ -146,7 +146,7 @@ export default function LoginPage() {
               className="w-full cursor-pointer rounded-sm bg-blue-500 hover:bg-blue-600"
               disabled={isLoggingIn}
             >
-              {isLoggingIn ? "Logging in ..." : "Login"}
+              {isLoggingIn ? "Signing in ..." : "Sign in"}
             </Button>
           </div>
         </Form>

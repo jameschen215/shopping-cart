@@ -1,11 +1,15 @@
 import App from "@/components/App";
-import HomePage from "@/routes/home/HomePage";
-import CartPage from "@/routes/cart/CartPage";
-import ErrorPage from "@/routes/error/ErrorPage";
-import ProductPage from "@/routes/product/ProductPage";
-import ProductsPage from "@/routes/products/ProductsPage";
-import { productsLoader } from "@/routes/products/productsLoader";
-import productLoader from "@/routes/product/productLoader";
+import CartPage from "@/pages/cart/CartPage";
+import ErrorPage from "@/pages/error/ErrorPage";
+import HomePage from "@/pages/home/HomePage";
+import { homepageLoader } from "@/pages/home/homepage-loader";
+import productLoader from "@/pages/product/productLoader";
+import ProductPage from "@/pages/product/ProductPage";
+import { productsLoader } from "@/pages/products/productsLoader";
+import ProductsPage from "@/pages/products/ProductsPage";
+import LoginPage from "@/pages/login/LoginPage";
+import cartLoader from "@/pages/cart/cartLoader";
+import SignUpPage from "@/pages/sign-up/SignUpPage";
 
 export const routes = [
   {
@@ -16,6 +20,7 @@ export const routes = [
       {
         index: true,
         Component: HomePage,
+        loader: homepageLoader,
         ErrorBoundary: ErrorPage,
       },
       {
@@ -43,6 +48,15 @@ export const routes = [
       {
         path: "cart",
         Component: CartPage,
+        loader: cartLoader,
+      },
+      {
+        path: "login",
+        Component: LoginPage,
+      },
+      {
+        path: "sign-up",
+        Component: SignUpPage,
       },
     ],
   },

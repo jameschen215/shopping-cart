@@ -43,7 +43,7 @@ export default function ProductCards({
                   <Button
                     onClick={() => {
                       console.log("clicked", product.title);
-                      toast.success(`Item has been added to your cart.`, {
+                      toast.success(`Item has been added to cart.`, {
                         action: {
                           label: "Go to Cart",
                           onClick: () => navigate("/cart"),

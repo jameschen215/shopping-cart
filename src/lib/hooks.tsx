@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { AuthContext } from "@/context/AuthContext";
 import { ThemeProviderContext } from "@/context/theme-context";
+import { useContext } from "react";
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
@@ -9,3 +10,11 @@ export const useTheme = () => {
 
   return context;
 };
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+
+  if (!context) throw new Error("useAuth must be used inside AuthProvider!");
+
+  return context;
+}

@@ -1,12 +1,21 @@
-import { getStoredToken } from "@/auth/auth";
-// import { redirect } from "react-router-dom";
+import { getStoredUser } from "@/auth/auth";
+import { getCart, getProduct } from "@/data/products";
 
-export default function cartLoader() {
-  const token = getStoredToken();
+export default async function cartLoader() {
+  const user = getStoredUser();
 
-  if (!token) {
-    return "Please login to get your cart.";
+  if (!user) {
+    return null;
   }
 
-  return "Cart page";
+  const data = await getCart(user.id);
+
+  const products = await Promise.all(
+    data.products.map(async ({ productId, quantity }) => {
+      const product = await getProduct(productId);
+      return { product, quantity };
+    }),
+  );
+
+  return products;
 }

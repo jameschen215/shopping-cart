@@ -12,3 +12,14 @@ export type ProductType = {
   image: string;
   rating: RatingType;
 };
+
+export type CartType = {
+  id: number;
+  userId: number;
+  products: { productId: number; quantity: number }[];
+};
+
+export type LocalCartType = {
+  product: ProductType;
+  quantity: number;
+};

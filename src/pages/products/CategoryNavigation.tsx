@@ -22,8 +22,8 @@ export default function CategoryNavigation() {
                 <NavigationMenuLink
                   asChild
                   className={cn(
-                    "capitalize hover:bg-transparent hover:underline hover:underline-offset-4",
-                    isActive && "underline underline-offset-4",
+                    "text-foreground/75 capitalize hover:bg-transparent hover:underline hover:underline-offset-4",
+                    isActive && "text-foreground",
                   )}
                 >
                   <span>{label}</span>

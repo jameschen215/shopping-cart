@@ -4,8 +4,8 @@ import {
   TypographyMuted,
 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import type { ProductType } from "@/data/data-type";
+import { useCart } from "@/lib/hooks";
 import { formatCurrency, formatNumberToK } from "@/lib/utils";
 import { Minus, Plus, Star } from "lucide-react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ export default function ProductPage() {
   const { product }: { product: ProductType } = useLoaderData();
 
   return (
-    <div className="flex w-full flex-1 flex-col gap-10 py-10 md:flex-row">
+    <div className="flex w-full flex-1 flex-col items-center gap-10 py-10 md:flex-row">
       <ImageWrapper product={product} />
 
       <ProductDetails product={product} />
@@ -26,12 +26,12 @@ export default function ProductPage() {
 
 function ImageWrapper({ product }: { product: ProductType }) {
   return (
-    <div className="flex flex-1 items-center justify-center">
-      <div className="w-[75%] md:w-[85%]">
+    <div className="flex max-h-[calc(100vh-300px)] flex-1 items-center justify-center">
+      <div className="h-full w-[75%] md:w-1/2">
         <img
           src={product.image}
           alt={product.title}
-          className="h-auto w-full object-cover"
+          className="h-full w-auto object-cover"
         />
       </div>
     </div>
@@ -41,6 +41,8 @@ function ImageWrapper({ product }: { product: ProductType }) {
 function ProductDetails({ product }: { product: ProductType }) {
   const [count, setCount] = useState(1);
   const navigate = useNavigate();
+
+  const { cartItems, setCartItems } = useCart();
 
   function handleIncrement() {
     setCount((prev) => prev + 1);
@@ -53,12 +55,29 @@ function ProductDetails({ product }: { product: ProductType }) {
   }
 
   function handleSubmit() {
+    // Add to cart, todo:
+    setCartItems((prev) => {
+      const existingItem = prev.find((item) => item.product.id === product.id);
+      if (existingItem) {
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + count }
+            : item,
+        );
+      } else {
+        return [...prev, { product, quantity: count }];
+      }
+    });
+
+    // display add result
     toast.success("Item has been added to cart.", {
       action: {
         label: "Go to Cart",
         onClick: () => navigate("/cart"),
       },
     });
+
+    console.log(cartItems);
   }
 
   return (
@@ -109,8 +128,9 @@ function ProductCount({
   onDecrement,
 }: ProductCountPropsType) {
   return (
-    <div className="flex">
+    <div className="flex items-center">
       <Button
+        type="button"
         variant={"ghost"}
         size={"icon"}
         onClick={onDecrement}
@@ -120,13 +140,15 @@ function ProductCount({
         <Minus />
       </Button>
 
-      <Input
+      {/* <Input
         type="text"
         value={count}
         className="aspect-square appearance-none rounded-none border-none font-medium md:text-base"
-      />
+      /> */}
+      <div className="flex size-5 items-center justify-center">{count}</div>
 
       <Button
+        type="button"
         variant={"ghost"}
         size={"icon"}
         onClick={onIncrement}

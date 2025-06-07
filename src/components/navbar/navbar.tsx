@@ -1,14 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
 import { Button } from "@/components/ui/button";
-import {
-  LogIn,
-  LogOut,
-  Settings,
-  ShoppingCart,
-  User,
-  UserCheck,
-} from "lucide-react";
+import { CircleUserRound, LogIn, LogOut, ShoppingCart } from "lucide-react";
 import { ModeToggle } from "../mode-toggle/ModeToggle";
 
 import {
@@ -18,12 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { useAuth } from "@/lib/hooks";
+import { useAuth, useCart } from "@/lib/hooks";
 import { Badge } from "../ui/badge";
+import type { UserType } from "@/lib/types";
+import { getStoredUser } from "@/auth/auth";
 
 export default function Navbar() {
   return (
-    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 mx-auto w-full max-w-[1400px] border-b backdrop-blur">
       <div className="flex h-14 w-full items-center px-4">
         <BrandAndLogo />
 
@@ -39,7 +34,7 @@ export default function Navbar() {
 
 function NavDropdownMenu() {
   const savedUser = localStorage.getItem("user");
-  const currentUser = savedUser ? JSON.parse(savedUser) : null;
+  const currentUser: UserType | null = savedUser ? JSON.parse(savedUser) : null;
 
   const { logout } = useAuth();
 
@@ -48,22 +43,20 @@ function NavDropdownMenu() {
       <DropdownMenuTrigger className="cursor-pointer" asChild>
         <Button variant={"ghost"} size={"icon"}>
           {currentUser ? (
-            <UserCheck className="size-5 text-blue-500" strokeWidth={1.5} />
+            <div className="bg-foreground/5 rounded-full p-1 text-xs">
+              {currentUser.name.firstname.slice(0, 1).toUpperCase()}
+              {currentUser.name.lastname.slice(0, 1).toUpperCase()}
+            </div>
           ) : (
-            <User className="size-5" strokeWidth={1.5} />
-          )}
+            <CircleUserRound className="size-5" aria-hidden strokeWidth={1.5} />
+          )}{" "}
+          {/* <span className="hidden font-light md:block">Account</span> */}
         </Button>
       </DropdownMenuTrigger>
 
       {/* Logged in */}
       {currentUser ? (
         <DropdownMenuContent>
-          <DropdownMenuItem>
-            <Button variant={"ghost"}>
-              <Settings />
-              Settings
-            </Button>
-          </DropdownMenuItem>
           <DropdownMenuItem>
             <Button
               variant={"ghost"}
@@ -94,8 +87,8 @@ function NavDropdownMenu() {
 function BrandAndLogo() {
   return (
     <div className="flex flex-1">
-      <a
-        href="/"
+      <Link
+        to="/"
         className="focus-visible:ring-ring flex items-center space-x-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       >
         <img
@@ -108,28 +101,31 @@ function BrandAndLogo() {
           Odin Store
         </span>
         <span className="sr-only">Odin Store - Go to homepage</span>
-      </a>
+      </Link>
     </div>
   );
 }
 
 function CartButton() {
-  const cartItemCount = 7;
+  const user = getStoredUser();
+  const { cartItems } = useCart();
+
+  const itemsNumber = cartItems.reduce((a, c) => a + c.quantity, 0);
 
   return (
     <Button variant="ghost" size="icon" className="relative">
       <NavLink
         to="/cart"
-        aria-label={`Shopping cart with ${cartItemCount} items`}
+        aria-label={`Shopping cart with ${cartItems.length} items`}
         // className="focus-visible:ring-ring rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       >
         <ShoppingCart className="size-5" strokeWidth={1.5} />
-        {cartItemCount > 0 && (
+        {cartItems.length > 0 && user && (
           <Badge
             className="absolute -top-1 -right-1 flex size-5 items-center justify-center overflow-visible bg-transparent p-0 text-xs font-medium text-rose-500"
             aria-hidden="true"
           >
-            {cartItemCount > 99 ? "99+" : cartItemCount}
+            {itemsNumber > 99 ? "99+" : itemsNumber}
           </Badge>
         )}
       </NavLink>

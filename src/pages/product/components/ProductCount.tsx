@@ -7,7 +7,7 @@ type ProductCountPropsType = {
   onDecrement: () => void;
 };
 
-export function ProductCount({
+export default function ProductCount({
   count,
   onIncrement,
   onDecrement,

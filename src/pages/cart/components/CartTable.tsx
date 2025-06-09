@@ -1,5 +1,4 @@
-import { getStoredUser } from "@/auth/auth";
-import { TypographyH1 } from "@/components/typography";
+import ProductCount from "@/components/product-count";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -16,69 +15,16 @@ import type { ProductType } from "@/data/data-type";
 
 import { useCart } from "@/lib/hooks";
 import { formatCurrency } from "@/lib/utils";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
-
-export default function CartPage() {
-  // const products = useLoaderData() as LocalCartType[] | null;
-  const { cartItems } = useCart();
-  const user = getStoredUser();
-
-  if (!user) {
-    return (
-      <div className="mt-30 flex flex-1 flex-col items-center gap-6">
-        <TypographyH1>Your cart is empty</TypographyH1>
-        <p className="text-xl">Have an account? Sign in to see your cart</p>
-        <Button className="min-w-[240px] rounded-xs py-5">
-          <Link to={"/login"}>Sign in</Link>
-        </Button>
-      </div>
-    );
-  }
-
-  if (cartItems.length === 0) {
-    return (
-      <div className="mt-30 flex flex-1 flex-col items-center gap-6">
-        <TypographyH1>Your cart is empty</TypographyH1>
-        <p className="text-xl">
-          Looks like you haven't added anything yet. Explore our products and
-          fill your cart!
-        </p>
-        <Button className="min-w-[240px] rounded-xs py-5">
-          <Link to={"/products"}>Go shopping</Link>
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <TypographyH1 className="my-8 ml-5 w-full text-left">
-        My cart
-      </TypographyH1>
-
-      <CartTable />
-
-      <Button
-        className="mt-10 w-full self-end rounded-xs py-6 md:mr-5 md:w-60 md:rounded-xs"
-        onClick={() => toast.info("Functionality is coming soon.")}
-      >
-        Proceed to checkout
-      </Button>
-    </>
-  );
-}
-
-function CartTable() {
+export default function CartTable() {
   const { cartItems, setCartItems } = useCart();
   const [selectIds, setSelectedIds] = useState<number[]>(() =>
     cartItems.map((item) => item.product.id),
   );
 
-  function handleQuantityChange(id: number, newQuantity: number) {
+  function handleQuantityChange(newQuantity: number, id?: number) {
     setCartItems((prev) =>
       prev.map((item) =>
         item.product.id === id ? { ...item, quantity: newQuantity } : item,
@@ -125,8 +71,8 @@ function CartTable() {
             <Checkbox
               checked={isAllSelected}
               onCheckedChange={toggleSelectAll}
+              className="cursor-pointer"
             />
-            {/* <span className="ml-2">Select All</span> */}
           </TableHead>
           <TableHead className="">Product</TableHead>
           <TableHead className="text-center">Price</TableHead>
@@ -142,6 +88,7 @@ function CartTable() {
               <Checkbox
                 checked={selectIds.includes(product.id)}
                 onCheckedChange={() => toggleSelectOne(product.id)}
+                className="cursor-pointer"
               />
             </TableCell>
             <TableCell>
@@ -200,61 +147,6 @@ function ProductCell({ product }: { product: ProductType }) {
       <div className="hidden md:flex md:flex-col">
         <span className="break-words whitespace-normal">{product.title}</span>
       </div>
-    </div>
-  );
-}
-
-type ProductCountPropsType = {
-  productId: number;
-  quantity: number;
-  onChange: (id: number, newQuantity: number) => void;
-};
-
-function ProductCount({
-  productId,
-  quantity,
-  onChange,
-}: ProductCountPropsType) {
-  const [count, setCount] = useState(quantity);
-
-  function handleDecrement() {
-    const newCount = count - 1;
-    if (newCount <= 0) return;
-
-    setCount(newCount);
-    onChange(productId, newCount);
-  }
-
-  function handleIncrement() {
-    const newCount = count + 1;
-    setCount(newCount);
-    onChange(productId, newCount);
-  }
-
-  return (
-    <div className="flex items-center justify-center">
-      <Button
-        type="button"
-        variant={"ghost"}
-        size={"icon"}
-        onClick={handleDecrement}
-        disabled={count <= 1}
-        className="cursor-pointer"
-      >
-        <Minus />
-      </Button>
-
-      <div className="flex size-5 items-center justify-center">{count}</div>
-
-      <Button
-        type="button"
-        variant={"ghost"}
-        size={"icon"}
-        onClick={handleIncrement}
-        className="cursor-pointer"
-      >
-        <Plus />
-      </Button>
     </div>
   );
 }

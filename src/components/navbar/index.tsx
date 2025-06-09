@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
 import { Button } from "@/components/ui/button";
 import { CircleUserRound, LogIn, LogOut, ShoppingCart } from "lucide-react";
-import { ModeToggle } from "../mode-toggle/ModeToggle";
+import { ModeToggle } from "@/components/mode-toggle";
 
 import {
   DropdownMenu,
@@ -13,7 +13,7 @@ import {
 import { toast } from "sonner";
 import { useAuth, useCart } from "@/lib/hooks";
 import { Badge } from "../ui/badge";
-import type { UserType } from "@/lib/types";
+import type { UserType } from "@/data/data-type";
 import { getStoredUser } from "@/auth/auth";
 
 export default function Navbar() {
@@ -113,11 +113,10 @@ function CartButton() {
   const itemsNumber = cartItems.reduce((a, c) => a + c.quantity, 0);
 
   return (
-    <Button variant="ghost" size="icon" className="relative">
+    <Button variant="ghost" size="icon" className="relative" asChild>
       <NavLink
         to="/cart"
         aria-label={`Shopping cart with ${cartItems.length} items`}
-        // className="focus-visible:ring-ring rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       >
         <ShoppingCart className="size-5" strokeWidth={1.5} />
         {cartItems.length > 0 && user && (

@@ -1,11 +1,9 @@
+import type { ProductType } from "@/lib/types";
 import { useLoaderData, useNavigation, useParams } from "react-router-dom";
-import CategoryNavigation from "./CategoryNavigation";
-
-import type { ProductType } from "@/data/data-type";
-
-import Loading from "@/pages/products/Loading";
-import SearchForm from "@/pages/products/SearchForm";
-import ProductCards from "@/pages/products/ProductCards";
+import CategoryNavigation from "@/pages/products/components/CategoryNavigation";
+import SearchForm from "@/pages/products/components/SearchForm";
+import LoadingPage from "@/components/loading-page";
+import ProductCards from "@/pages/products/components/ProductCards";
 
 export default function ProductsPage() {
   const { category } = useParams();
@@ -30,7 +28,7 @@ export default function ProductsPage() {
 
       {/* Cards */}
       {navigation.state === "loading" ? (
-        <Loading />
+        <LoadingPage />
       ) : (
         <ProductCards products={products} />
       )}

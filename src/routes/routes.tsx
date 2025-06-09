@@ -1,15 +1,14 @@
 import App from "@/components/App";
-import CartPage from "@/pages/cart/CartPage";
-import ErrorPage from "@/pages/error/ErrorPage";
-import HomePage from "@/pages/home/HomePage";
-import { homepageLoader } from "@/pages/home/homepage-loader";
-import productLoader from "@/pages/product/productLoader";
-import ProductPage from "@/pages/product/ProductPage";
-import { productsLoader } from "@/pages/products/productsLoader";
-import ProductsPage from "@/pages/products/ProductsPage";
-import LoginPage from "@/pages/login/LoginPage";
-import cartLoader from "@/pages/cart/cartLoader";
-import SignUpPage from "@/pages/sign-up/SignUpPage";
+import CartPage from "@/pages/cart";
+import ErrorPage from "@/pages/error";
+import LandingPage from "@/pages/landing-page";
+import productLoader from "@/pages/product/product-loader";
+import ProductPage from "@/pages/product";
+import ProductsPage from "@/pages/products";
+import LoginPage from "@/pages/login";
+
+import { ladingPageLoader } from "@/pages/landing-page/landing-page-loader";
+import { productsLoader } from "@/pages/products/products-loader";
 
 export const routes = [
   {
@@ -19,8 +18,8 @@ export const routes = [
     children: [
       {
         index: true,
-        Component: HomePage,
-        loader: homepageLoader,
+        Component: LandingPage,
+        loader: ladingPageLoader,
         ErrorBoundary: ErrorPage,
       },
       {
@@ -48,15 +47,10 @@ export const routes = [
       {
         path: "cart",
         Component: CartPage,
-        loader: cartLoader,
       },
       {
         path: "login",
         Component: LoginPage,
-      },
-      {
-        path: "sign-up",
-        Component: SignUpPage,
       },
     ],
   },

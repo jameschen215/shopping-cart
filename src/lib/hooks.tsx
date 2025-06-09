@@ -1,5 +1,5 @@
-import { AuthContext } from "@/context/AuthContext";
-import { CartContext } from "@/context/CartContext";
+import { AuthContext } from "@/context/auth-context";
+import { CartContext } from "@/context/cart-context";
 import { ThemeProviderContext } from "@/context/theme-context";
 import { useContext } from "react";
 

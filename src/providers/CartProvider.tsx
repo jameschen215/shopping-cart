@@ -1,5 +1,5 @@
 import { getStoredUser } from "@/auth/auth";
-import { CartContext } from "@/context/CartContext";
+import { CartContext } from "@/context/cart-context";
 import type { LocalCartType } from "@/data/data-type";
 import { getCart, getProduct } from "@/data/products";
 import { useEffect, useState, type ReactNode } from "react";

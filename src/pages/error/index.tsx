@@ -1,6 +1,5 @@
-import { useRouteError } from "react-router-dom";
-
 import { TypographyH1, TypographyP } from "@/components/typography";
+import { useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
   const error = useRouteError();

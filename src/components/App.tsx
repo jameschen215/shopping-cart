@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./navbar/Navbar";
-import Footer from "./footer/Footer";
-
 import { Toaster } from "@/components/ui/sonner";
+
 import { AuthProvider } from "@/providers/AuthProvider";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 export default function App() {
   return (

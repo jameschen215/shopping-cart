@@ -1,10 +1,12 @@
-import CarouselFromShad from "@/components/carousel-shad/CarouselFromShad";
-import { TypographyH1 } from "@/components/typography";
-import { Button } from "@/components/ui/button";
-import { HOMEPAGE_CATEGORIES } from "@/lib/constants";
 import { NavLink } from "react-router-dom";
 
-export default function HomePage() {
+import { Button } from "@/components/ui/button";
+import { TypographyH1 } from "@/components/typography";
+
+import { HOMEPAGE_CATEGORIES } from "@/lib/constants";
+import AppCarousel from "@/components/app-carousel";
+
+export default function LandingPage() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-2">
       <TypographyH1 className="font-display my-12 flex flex-col items-center justify-center gap-2 md:mt-5 md:mb-20 md:flex-row">
@@ -13,7 +15,7 @@ export default function HomePage() {
       </TypographyH1>
 
       <div className="max-w-2xs md:max-w-2xl">
-        <CarouselFromShad slides={HOMEPAGE_CATEGORIES} />
+        <AppCarousel slides={HOMEPAGE_CATEGORIES} />
 
         <ButtonContainer />
       </div>

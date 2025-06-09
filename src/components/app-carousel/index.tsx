@@ -21,10 +21,7 @@ type CarouselPropsType = {
   slides: SlideType[];
 };
 
-export default function CarouselFromShad({
-  className,
-  slides,
-}: CarouselPropsType) {
+export default function AppCarousel({ className, slides }: CarouselPropsType) {
   return (
     <Carousel
       opts={{ loop: true }}
@@ -54,6 +51,7 @@ export default function CarouselFromShad({
         ))}
       </CarouselContent>
 
+      {/* controls */}
       <CarouselIndicators />
       <CarouselPrevious />
       <CarouselNext />

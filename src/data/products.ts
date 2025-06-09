@@ -1,4 +1,4 @@
-import type { CartType, ProductType } from "@/data/data-type";
+import type { CartType, ProductType } from "@/lib/types";
 
 export async function getProducts(query?: string): Promise<ProductType[]> {
   const response = await fetch("https://fakestoreapi.com/products");

@@ -1,3 +1,5 @@
+/** --- /pages/products/index.tsx --- */
+
 import type { ProductType } from "@/lib/types";
 import { useLoaderData, useNavigation, useParams } from "react-router-dom";
 import CategoryNavigation from "@/pages/products/components/CategoryNavigation";
@@ -10,12 +12,18 @@ export default function ProductsPage() {
   const { data } = useLoaderData() as { data: ProductType[] };
   const navigation = useNavigation();
 
+  console.log(data);
+
   let products = data.slice();
 
   if (category) {
     products = products.filter(
       (p) => p.category.slice(0, 2) === category.slice(0, 2),
     );
+  }
+
+  if (navigation.state === "loading" && category === "") {
+    return <LoadingPage pageName="products" />;
   }
 
   return (
@@ -27,11 +35,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Cards */}
-      {navigation.state === "loading" ? (
-        <LoadingPage />
-      ) : (
-        <ProductCards products={products} />
-      )}
+      <ProductCards products={products} />
     </>
   );
 }

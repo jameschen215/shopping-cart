@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 
-import { AuthProvider } from "@/providers/AuthProvider";
+import { AuthProvider } from "@/context/AuthProvider";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 

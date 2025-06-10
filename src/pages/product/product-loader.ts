@@ -1,4 +1,4 @@
-import { getProduct } from "@/data/products";
+import { getProduct } from "@/lib/api";
 import type { LoaderFunctionArgs } from "react-router-dom";
 
 export default async function productLoader({ params }: LoaderFunctionArgs) {

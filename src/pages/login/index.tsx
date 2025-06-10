@@ -1,13 +1,16 @@
-import { useState } from "react";
+/** --- pages/login/index.tsx --- */
+
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, useNavigate, useNavigation } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/hooks";
 import { TypographyH1 } from "@/components/typography";
+import LoadingPage from "@/components/loading-page";
 
 const testUser = {
   username: "mor_2314",
@@ -23,12 +26,20 @@ export type LoginDataType = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const { login } = useAuth();
+  const navigation = useNavigation();
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      navigate("/products", { replace: true });
+    }
+  }, [token, navigate]);
 
   function handleUsernameChange(ev: React.ChangeEvent<HTMLInputElement>) {
     setUsername(ev.target.value);
@@ -70,12 +81,15 @@ export default function LoginPage() {
       await login(username, password);
       toast.success("Login successfully!");
       navigate("/products");
+      // redirect("/products");
     } catch (err) {
       setErrors({ form: (err as Error).message });
     } finally {
       setIsLoggingIn(false);
     }
   }
+
+  if (navigation.state === "loading") return <LoadingPage />;
 
   return (
     <div className="flex w-full flex-1 flex-col items-center justify-center">

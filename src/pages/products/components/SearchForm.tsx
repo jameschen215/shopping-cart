@@ -25,9 +25,9 @@ export default function SearchForm() {
   function handleSearchChange(ev: React.ChangeEvent<HTMLInputElement>) {
     setQuery(ev.target.value);
 
-    // const isFirstSearch = q === null;
-    // submit(ev.currentTarget.form, { replace: !isFirstSearch });
-    submit(ev.currentTarget.form);
+    const isFirstSearch = q === null;
+    submit(ev.currentTarget.form, { replace: !isFirstSearch });
+    // submit(ev.currentTarget.form);
   }
 
   return (

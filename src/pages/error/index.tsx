@@ -1,14 +1,16 @@
 import { TypographyH1, TypographyP } from "@/components/typography";
-import { useRouteError } from "react-router-dom";
+import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
   const error = useRouteError();
   let errorInfo = "";
 
-  if (error instanceof Error) {
+  console.log(isRouteErrorResponse(error));
+
+  if (isRouteErrorResponse(error)) {
+    errorInfo = error.data;
+  } else if (error instanceof Error) {
     errorInfo = error.message;
-  } else if (error instanceof Response) {
-    errorInfo = error.statusText;
   }
 
   return (

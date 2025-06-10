@@ -1,12 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigation } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { TypographyH1 } from "@/components/typography";
 
 import { HOMEPAGE_CATEGORIES } from "@/lib/constants";
 import AppCarousel from "@/components/app-carousel";
+import LoadingPage from "@/components/loading-page";
 
 export default function LandingPage() {
+  const navigation = useNavigation();
+
+  if (navigation.state === "loading") return <LoadingPage />;
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-2">
       <TypographyH1 className="font-display my-12 flex flex-col items-center justify-center gap-2 md:mt-5 md:mb-20 md:flex-row">

@@ -1,3 +1,5 @@
+/** --- context/auth-context.ts --- */
+
 import type { UserType } from "@/lib/types";
 import { createContext } from "react";
 

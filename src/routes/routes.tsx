@@ -1,14 +1,23 @@
+/** --- routes/routes.tsx --- */
+
 import App from "@/components/App";
-import CartPage from "@/pages/cart";
 import ErrorPage from "@/pages/error";
 import LandingPage from "@/pages/landing-page";
 import productLoader from "@/pages/product/product-loader";
-import ProductPage from "@/pages/product";
-import ProductsPage from "@/pages/products";
 import LoginPage from "@/pages/login";
 
-import { ladingPageLoader } from "@/pages/landing-page/landing-page-loader";
+// import CartPage from "@/pages/cart";
+// import ProductPage from "@/pages/product";
+// import ProductsPage from "@/pages/products";
+
 import { productsLoader } from "@/pages/products/products-loader";
+import landingPageLoader from "@/pages/landing-page/landing-page-loader";
+import { lazy, Suspense } from "react";
+import LoadingPage from "@/components/loading-page";
+
+const ProductsPage = lazy(() => import("@/pages/products"));
+const ProductPage = lazy(() => import("@/pages/product"));
+const CartPage = lazy(() => import("@/pages/cart"));
 
 export const routes = [
   {
@@ -19,8 +28,8 @@ export const routes = [
       {
         index: true,
         Component: LandingPage,
-        loader: ladingPageLoader,
         ErrorBoundary: ErrorPage,
+        loader: landingPageLoader,
       },
       {
         path: "products",
@@ -29,24 +38,40 @@ export const routes = [
           {
             index: true,
             loader: productsLoader,
-            Component: ProductsPage,
+            Component: () => (
+              <Suspense fallback={<LoadingPage pageName="products" />}>
+                <ProductsPage />
+              </Suspense>
+            ),
           },
           {
             path: "category/:category",
             loader: productsLoader,
-            Component: ProductsPage,
+            Component: () => (
+              <Suspense fallback={<LoadingPage pageName="products" />}>
+                <ProductsPage />
+              </Suspense>
+            ),
           },
         ],
       },
       {
         path: "product/:productId",
-        Component: ProductPage,
         ErrorBoundary: ErrorPage,
         loader: productLoader,
+        Component: () => (
+          <Suspense fallback={<LoadingPage pageName="product" />}>
+            <ProductPage />
+          </Suspense>
+        ),
       },
       {
         path: "cart",
-        Component: CartPage,
+        Component: () => (
+          <Suspense fallback={<LoadingPage pageName="cart" />}>
+            <CartPage />
+          </Suspense>
+        ),
       },
       {
         path: "login",

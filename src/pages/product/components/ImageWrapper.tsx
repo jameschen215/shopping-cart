@@ -1,4 +1,4 @@
-import type { ProductType } from "@/data/data-type";
+import type { ProductType } from "@/lib/types";
 
 export function ImageWrapper({ product }: { product: ProductType }) {
   return (

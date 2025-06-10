@@ -7,9 +7,21 @@ export default function NoUserCartPage() {
     <div className="mt-30 flex flex-1 flex-col items-center gap-6">
       <TypographyH1>Your cart is empty</TypographyH1>
       <p className="text-xl">Have an account? Sign in to see your cart</p>
-      <Button className="min-w-[240px] cursor-pointer rounded-xs py-5" asChild>
-        <Link to={"/login"}>Sign in</Link>
-      </Button>
+
+      <div className="flex w-full flex-col gap-3 md:flex-row">
+        <Button
+          className="cursor-pointer rounded-xs py-5 md:min-w-[200px]"
+          asChild
+        >
+          <Link to={"/products"}>Go back shopping</Link>
+        </Button>
+        <Button
+          className="cursor-pointer rounded-xs py-5 md:min-w-[200px]"
+          asChild
+        >
+          <Link to={"/login"}>Sign in</Link>
+        </Button>
+      </div>
     </div>
   );
 }

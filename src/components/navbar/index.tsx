@@ -1,9 +1,3 @@
-import { Link, NavLink } from "react-router-dom";
-import logo from "@/assets/images/logo.png";
-import { Button } from "@/components/ui/button";
-import { CircleUserRound, LogIn, LogOut, ShoppingCart } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +5,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { useAuth, useCart } from "@/lib/hooks";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { Badge } from "../ui/badge";
-import type { UserType } from "@/data/data-type";
-import { getStoredUser } from "@/auth/auth";
+import { CircleUserRound, LogIn, LogOut, ShoppingCart } from "lucide-react";
+
+import logo from "@/assets/images/logo.png";
+import type { UserType } from "@/lib/types";
+import { ModeToggle } from "@/components/mode-toggle";
+import { useAuth, useCart } from "@/lib/hooks";
 
 export default function Navbar() {
   return (
@@ -37,6 +36,7 @@ function NavDropdownMenu() {
   const currentUser: UserType | null = savedUser ? JSON.parse(savedUser) : null;
 
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <DropdownMenu>
@@ -62,6 +62,7 @@ function NavDropdownMenu() {
               variant={"ghost"}
               onClick={() => {
                 logout();
+                navigate("/");
                 toast.warning("You are logged out.");
               }}
             >
@@ -87,7 +88,7 @@ function NavDropdownMenu() {
 function BrandAndLogo() {
   return (
     <div className="flex flex-1">
-      <Link
+      <NavLink
         to="/"
         className="focus-visible:ring-ring flex items-center space-x-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       >
@@ -101,13 +102,13 @@ function BrandAndLogo() {
           Odin Store
         </span>
         <span className="sr-only">Odin Store - Go to homepage</span>
-      </Link>
+      </NavLink>
     </div>
   );
 }
 
 function CartButton() {
-  const user = getStoredUser();
+  const { user } = useAuth();
   const { cartItems } = useCart();
 
   const itemsNumber = cartItems.reduce((a, c) => a + c.quantity, 0);
@@ -119,7 +120,7 @@ function CartButton() {
         aria-label={`Shopping cart with ${cartItems.length} items`}
       >
         <ShoppingCart className="size-5" strokeWidth={1.5} />
-        {cartItems.length > 0 && user && (
+        {cartItems.length > 0 && user !== null && (
           <Badge
             className="absolute -top-1 -right-1 flex size-5 items-center justify-center overflow-visible bg-transparent p-0 text-xs font-medium text-rose-500"
             aria-hidden="true"

@@ -11,12 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { ProductType } from "@/data/data-type";
 
+import type { ProductType } from "@/lib/types";
 import { useCart } from "@/lib/hooks";
 import { formatCurrency } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function CartTable() {
   const { cartItems, setCartItems } = useCart();
@@ -135,18 +136,20 @@ export default function CartTable() {
 
 function ProductCell({ product }: { product: ProductType }) {
   return (
-    <div className="flex items-center gap-5 py-2">
-      <div className="size-10 md:size-20">
-        <img
-          className="h-full w-full object-cover"
-          src={product.image}
-          alt={product.title}
-        />
-      </div>
+    <Link to={`/product/${product.id}`}>
+      <div className="flex items-center gap-5 py-2">
+        <div className="size-10 md:size-20">
+          <img
+            className="h-full w-full object-cover"
+            src={product.image}
+            alt={product.title}
+          />
+        </div>
 
-      <div className="hidden md:flex md:flex-col">
-        <span className="break-words whitespace-normal">{product.title}</span>
+        <div className="hidden md:flex md:flex-col">
+          <span className="break-words whitespace-normal">{product.title}</span>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -18,7 +18,7 @@ export default function ProductCards({
   return (
     <div className="my-6 grid w-full [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))] place-items-center gap-5">
       {products.map((product) => (
-        <NavLink to={`/product/${product.id}`} key={product.id}>
+        <Link to={`/product/${product.id}`} key={product.id}>
           <Card className="gap-6 rounded-sm border-none px-5 shadow-lg transition-transform duration-200 hover:scale-[1.02]">
             <CardContent className="p-0">
               <div className="flex aspect-square w-full items-center justify-center overflow-hidden">
@@ -39,7 +39,7 @@ export default function ProductCards({
               </CardDescription>
             </CardHeader>
           </Card>
-        </NavLink>
+        </Link>
       ))}
     </div>
   );

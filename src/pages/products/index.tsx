@@ -1,18 +1,16 @@
 /** --- /pages/products/index.tsx --- */
 
 import type { ProductType } from "@/lib/types";
-import { useLoaderData, useNavigation, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import CategoryNavigation from "@/pages/products/components/CategoryNavigation";
 import SearchForm from "@/pages/products/components/SearchForm";
 import LoadingPage from "@/components/loading-page";
 import ProductCards from "@/pages/products/components/ProductCards";
+import { useStayOnRoute } from "@/lib/hooks";
 
 export default function ProductsPage() {
   const { category } = useParams();
   const { data } = useLoaderData() as { data: ProductType[] };
-  const navigation = useNavigation();
-
-  console.log(data);
 
   let products = data.slice();
 
@@ -22,9 +20,9 @@ export default function ProductsPage() {
     );
   }
 
-  if (navigation.state === "loading" && category === "") {
-    return <LoadingPage pageName="products" />;
-  }
+  const stillOnProducts = useStayOnRoute("/products/*");
+
+  if (stillOnProducts) return <LoadingPage pageName="products" />;
 
   return (
     <>

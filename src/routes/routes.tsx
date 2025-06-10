@@ -6,10 +6,6 @@ import LandingPage from "@/pages/landing-page";
 import productLoader from "@/pages/product/product-loader";
 import LoginPage from "@/pages/login";
 
-// import CartPage from "@/pages/cart";
-// import ProductPage from "@/pages/product";
-// import ProductsPage from "@/pages/products";
-
 import { productsLoader } from "@/pages/products/products-loader";
 import landingPageLoader from "@/pages/landing-page/landing-page-loader";
 import { lazy, Suspense } from "react";

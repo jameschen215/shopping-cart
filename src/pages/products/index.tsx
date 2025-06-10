@@ -4,9 +4,9 @@ import type { ProductType } from "@/lib/types";
 import { useLoaderData, useParams } from "react-router-dom";
 import CategoryNavigation from "@/pages/products/components/CategoryNavigation";
 import SearchForm from "@/pages/products/components/SearchForm";
-import LoadingPage from "@/components/loading-page";
 import ProductCards from "@/pages/products/components/ProductCards";
 import { useStayOnRoute } from "@/lib/hooks";
+import ProductsSkeleton from "@/components/skeletons/ProductsSkeleton";
 
 export default function ProductsPage() {
   const { category } = useParams();
@@ -22,7 +22,7 @@ export default function ProductsPage() {
 
   const stillOnProducts = useStayOnRoute("/products/*");
 
-  if (stillOnProducts) return <LoadingPage pageName="products" />;
+  if (stillOnProducts) return <ProductsSkeleton />;
 
   return (
     <>

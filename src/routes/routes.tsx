@@ -10,6 +10,7 @@ import { productsLoader } from "@/pages/products/products-loader";
 import landingPageLoader from "@/pages/landing-page/landing-page-loader";
 import { lazy, Suspense } from "react";
 import LoadingPage from "@/components/loading-page";
+import ProductsSkeleton from "@/components/skeletons/ProductsSkeleton";
 
 const ProductsPage = lazy(() => import("@/pages/products"));
 const ProductPage = lazy(() => import("@/pages/product"));
@@ -35,7 +36,7 @@ export const routes = [
             index: true,
             loader: productsLoader,
             Component: () => (
-              <Suspense fallback={<LoadingPage pageName="products" />}>
+              <Suspense fallback={<ProductsSkeleton />}>
                 <ProductsPage />
               </Suspense>
             ),
@@ -44,7 +45,7 @@ export const routes = [
             path: "category/:category",
             loader: productsLoader,
             Component: () => (
-              <Suspense fallback={<LoadingPage pageName="products" />}>
+              <Suspense fallback={<ProductsSkeleton />}>
                 <ProductsPage />
               </Suspense>
             ),

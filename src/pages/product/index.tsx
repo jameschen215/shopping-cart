@@ -4,17 +4,16 @@ import { useLoaderData } from "react-router-dom";
 import { ImageWrapper } from "@/pages/product/components/ImageWrapper";
 import { ProductDetails } from "@/pages/product/components/ProductDetails";
 import type { ProductType } from "@/lib/types";
-import LoadingPage from "@/components/loading-page";
 import { useStayOnRoute } from "@/lib/hooks";
+import ProductSkeleton from "@/components/skeletons/ProductSkeleton";
 
 export default function ProductPage() {
   const { product }: { product: ProductType } = useLoaderData();
 
   const stillOnProduct = useStayOnRoute("/product/*");
-  console.log(stillOnProduct);
 
   if (stillOnProduct) {
-    return <LoadingPage pageName="product" />;
+    return <ProductSkeleton />;
   }
 
   return (

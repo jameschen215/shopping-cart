@@ -9,8 +9,9 @@ import LoginPage from "@/pages/login";
 import { productsLoader } from "@/pages/products/products-loader";
 import landingPageLoader from "@/pages/landing-page/landing-page-loader";
 import { lazy, Suspense } from "react";
-import LoadingPage from "@/components/loading-page";
 import ProductsSkeleton from "@/components/skeletons/ProductsSkeleton";
+import ProductSkeleton from "@/components/skeletons/ProductSkeleton";
+import CartSkeleton from "@/components/skeletons/CartSkeleton";
 
 const ProductsPage = lazy(() => import("@/pages/products"));
 const ProductPage = lazy(() => import("@/pages/product"));
@@ -57,7 +58,7 @@ export const routes = [
         ErrorBoundary: ErrorPage,
         loader: productLoader,
         Component: () => (
-          <Suspense fallback={<LoadingPage pageName="product" />}>
+          <Suspense fallback={<ProductSkeleton />}>
             <ProductPage />
           </Suspense>
         ),
@@ -65,7 +66,7 @@ export const routes = [
       {
         path: "cart",
         Component: () => (
-          <Suspense fallback={<LoadingPage pageName="cart" />}>
+          <Suspense fallback={<CartSkeleton />}>
             <CartPage />
           </Suspense>
         ),

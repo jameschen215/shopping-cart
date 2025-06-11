@@ -121,7 +121,7 @@ export default function CartTable() {
 
       <TableFooter className="text-base">
         <TableRow>
-          <TableCell className="md:text-center"></TableCell>
+          <TableCell></TableCell>
           <TableCell colSpan={3} className="">
             Total
           </TableCell>

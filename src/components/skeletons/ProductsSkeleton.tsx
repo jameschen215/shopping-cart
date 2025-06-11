@@ -9,11 +9,11 @@ export default function ProductsSkeleton() {
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
-            className="flex w-full flex-col gap-2 rounded-sm border-none p-3 shadow-lg"
+            className="flex w-full flex-col gap-2 rounded-sm border-none p-4 shadow-lg"
           >
             <Skeleton className="bg-foreground/5 aspect-square w-full" />
-            <Skeleton className="bg-foreground/5 h-8 w-full" />
-            <Skeleton className="bg-foreground/5 h-8 w-full" />
+            <Skeleton className="bg-foreground/5 h-8 w-1/2" />
+            <Skeleton className="bg-foreground/5 h-8 w-4/5" />
           </div>
         ))}
       </div>

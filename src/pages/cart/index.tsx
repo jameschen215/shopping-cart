@@ -7,7 +7,7 @@ import ButtonGroup from "./components/ButtonGroup";
 import NoUserCartPage from "./components/NoUserCartPage";
 import NoItemCartPage from "./components/NoItemCartPage";
 import { TypographyH1 } from "@/components/typography";
-import LoadingPage from "@/components/loading-page";
+import CartSkeleton from "@/components/skeletons/CartSkeleton";
 
 export default function CartPage() {
   const { cartItems } = useCart();
@@ -15,11 +15,13 @@ export default function CartPage() {
 
   const stillOnCart = useStayOnRoute("/cart");
 
-  if (stillOnCart) return <LoadingPage pageName="cart" />;
+  if (stillOnCart) return <CartSkeleton />;
 
   if (!user) return <NoUserCartPage />;
 
   if (cartItems.length === 0) return <NoItemCartPage />;
+
+  // return <CartSkeleton />;
 
   return (
     <>

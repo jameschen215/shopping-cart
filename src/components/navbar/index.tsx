@@ -17,7 +17,7 @@ import { useAuth, useCart } from "@/lib/hooks";
 
 export default function Navbar() {
   return (
-    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 mx-auto w-full max-w-[1400px] border-b backdrop-blur">
+    <header className="dark:bg-background supports-[backdrop-filter]:dark:bg-background/60 sticky top-0 z-50 mx-auto w-full max-w-[1440px] border-b bg-white backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="flex h-14 w-full items-center px-4">
         <BrandAndLogo />
 
@@ -96,9 +96,9 @@ function BrandAndLogo() {
           src={logo}
           alt="Odin Store logo"
           loading="eager"
-          className="size-7"
+          className="size-6"
         />
-        <span className="font-display hidden text-lg font-medium tracking-tight sm:inline-block">
+        <span className="font-brand hidden text-2xl font-normal sm:inline-block">
           Odin Store
         </span>
         <span className="sr-only">Odin Store - Go to homepage</span>

@@ -3,14 +3,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Form, useNavigate, useNavigation } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/hooks";
 import { TypographyH1 } from "@/components/typography";
-import LoadingPage from "@/components/loading-page";
 
 const testUser = {
   username: "mor_2314",
@@ -26,7 +25,6 @@ export type LoginDataType = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const navigation = useNavigation();
   const navigate = useNavigate();
   const { token } = useAuth();
 
@@ -88,8 +86,6 @@ export default function LoginPage() {
       setIsLoggingIn(false);
     }
   }
-
-  if (navigation.state === "loading") return <LoadingPage />;
 
   return (
     <div className="flex w-full flex-1 flex-col items-center justify-center">
@@ -157,7 +153,7 @@ export default function LoginPage() {
           <div className="space-y-3">
             <Button
               type="submit"
-              className="w-full cursor-pointer rounded-sm bg-blue-500 hover:bg-blue-600"
+              className="w-full cursor-pointer rounded-sm"
               disabled={isLoggingIn}
             >
               {isLoggingIn ? "Signing in ..." : "Sign in"}

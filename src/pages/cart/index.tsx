@@ -21,8 +21,6 @@ export default function CartPage() {
 
   if (cartItems.length === 0) return <NoItemCartPage />;
 
-  // return <CartSkeleton />;
-
   return (
     <>
       <TypographyH1 className="my-8 ml-5 w-full text-left">

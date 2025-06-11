@@ -12,8 +12,11 @@ export default function ProductsSkeleton() {
             className="flex w-full flex-col gap-2 rounded-sm border-none p-4 shadow-lg"
           >
             <Skeleton className="bg-foreground/5 aspect-square w-full" />
-            <Skeleton className="bg-foreground/5 h-8 w-1/2" />
-            <Skeleton className="bg-foreground/5 h-8 w-4/5" />
+            <div className="flex items-center justify-between">
+              <Skeleton className="bg-foreground/5 h-8 w-1/3" />
+              <Skeleton className="bg-foreground/5 h-5 w-1/2" />
+            </div>
+            <Skeleton className="bg-foreground/5 h-6 w-full" />
           </div>
         ))}
       </div>

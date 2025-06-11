@@ -22,7 +22,7 @@ export default function ProductsPage() {
 
   const stillOnProducts = useStayOnRoute("/products/*");
 
-  if (stillOnProducts) return <ProductsSkeleton />;
+  if (stillOnProducts && category === "") return <ProductsSkeleton />;
 
   return (
     <>

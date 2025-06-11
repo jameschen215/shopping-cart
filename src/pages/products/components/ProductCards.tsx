@@ -9,6 +9,7 @@ import {
 
 import { formatCurrency } from "@/lib/utils";
 import type { ProductType } from "@/lib/types";
+import StarRating from "@/pages/product/components/StarRating";
 
 export default function ProductCards({
   products,
@@ -32,7 +33,15 @@ export default function ProductCards({
 
             <CardHeader className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <CardTitle>{formatCurrency(product.price)}</CardTitle>
+                <CardTitle className="text-lg">
+                  {formatCurrency(product.price)}
+                </CardTitle>
+                <StarRating
+                  rate={product.rating.rate}
+                  count={product.rating.count}
+                  justStar={true}
+                  className="size-3"
+                />
               </div>
               <CardDescription className="line-clamp-1">
                 {product.title}

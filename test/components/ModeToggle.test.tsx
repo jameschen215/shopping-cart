@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ModeToggle } from "@/components/mode-toggle/ModeToggle";
+import { ModeToggle } from "@/components/mode-toggle";
 import { useTheme } from "@/lib/hooks";
 
 /** --- Mock Module --- */

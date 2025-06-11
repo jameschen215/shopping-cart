@@ -7,6 +7,7 @@ export function ImageWrapper({ product }: { product: ProductType }) {
         <img
           src={product.image}
           alt={product.title}
+          loading="lazy"
           className="h-full w-auto object-cover"
         />
       </div>

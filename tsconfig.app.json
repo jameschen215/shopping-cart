@@ -27,7 +27,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    /* Image types */
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }

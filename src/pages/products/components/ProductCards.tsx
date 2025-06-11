@@ -26,6 +26,7 @@ export default function ProductCards({
                 <img
                   src={product.image}
                   alt={product.title}
+                  loading="lazy"
                   className="h-auto w-full object-cover dark:brightness-80 dark:contrast-120"
                 />
               </div>

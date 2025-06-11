@@ -1,4 +1,4 @@
-import ProductsPage from "@/features/products/ProductsPage";
+import ProductsPage from "@/pages/products";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 

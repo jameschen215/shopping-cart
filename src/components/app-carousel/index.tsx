@@ -10,6 +10,7 @@ import {
   CarouselIndicators,
 } from "../ui/carousel";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 type SlideType = {
   category: string;
@@ -22,6 +23,7 @@ type CarouselPropsType = {
 };
 
 export default function AppCarousel({ className, slides }: CarouselPropsType) {
+  useEffect(() => {}, []);
   return (
     <Carousel
       opts={{ loop: true }}
@@ -37,6 +39,7 @@ export default function AppCarousel({ className, slides }: CarouselPropsType) {
                   <div className="h-full w-full">
                     <img
                       src={image}
+                      loading="lazy"
                       alt="Category photo"
                       className="block h-full w-full object-cover"
                     />

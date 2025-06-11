@@ -79,7 +79,6 @@ export default function LoginPage() {
       await login(username, password);
       toast.success("Login successfully!");
       navigate("/products");
-      // redirect("/products");
     } catch (err) {
       setErrors({ form: (err as Error).message });
     } finally {
@@ -109,11 +108,18 @@ export default function LoginPage() {
               className="rounded-sm"
               value={username}
               onChange={handleUsernameChange}
+              aria-labelledby={errors?.username ? "username-error" : undefined}
+              aria-invalid={Boolean(errors?.username)}
             />
 
             {/* describedby */}
             {errors?.username && (
-              <span className="text-sm text-red-500" aria-live="polite">
+              <span
+                id="username-error"
+                role="alert"
+                className="text-sm text-red-500"
+                aria-live="polite"
+              >
                 {errors?.username}
               </span>
             )}
@@ -127,9 +133,16 @@ export default function LoginPage() {
               className="rounded-sm"
               value={password}
               onChange={handlePasswordChange}
+              aria-labelledby={errors?.password ? "password-error" : undefined}
+              aria-hidden={Boolean(errors?.password)}
             />
             {errors?.password && (
-              <span className="text-sm text-red-500" aria-live="polite">
+              <span
+                id="password-error"
+                role="alert"
+                className="text-sm text-red-500"
+                aria-live="polite"
+              >
                 {errors?.password}
               </span>
             )}
@@ -146,7 +159,11 @@ export default function LoginPage() {
             </Label>
           </div>
           {errors?.form && (
-            <span className="text-sm text-red-500" aria-live="polite">
+            <span
+              role="alert"
+              className="text-sm text-red-500"
+              aria-live="polite"
+            >
               {errors?.form}
             </span>
           )}

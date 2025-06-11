@@ -1,6 +1,5 @@
-import ProductCount from "@/components/product-count";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
   Table,
@@ -11,13 +10,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
-import type { ProductType } from "@/lib/types";
+import { Trash2 } from "lucide-react";
+
 import { useCart } from "@/lib/hooks";
 import { formatCurrency } from "@/lib/utils";
-import { Trash2 } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import type { ProductType } from "@/lib/types";
+import ProductCount from "@/components/product-count";
 
 export default function CartTable() {
   const { cartItems, setCartItems } = useCart();

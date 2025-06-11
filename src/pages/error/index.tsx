@@ -5,8 +5,6 @@ export default function ErrorPage() {
   const error = useRouteError();
   let errorInfo = "";
 
-  console.log(isRouteErrorResponse(error));
-
   if (isRouteErrorResponse(error)) {
     errorInfo = error.data;
   } else if (error instanceof Error) {

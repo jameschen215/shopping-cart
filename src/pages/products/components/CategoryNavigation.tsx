@@ -4,7 +4,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { CATEGORIES } from "@/lib/constants";
+
+import { PRODUCTS_PAGE_CATEGORIES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { NavLink } from "react-router-dom";
 
@@ -15,7 +16,7 @@ export default function CategoryNavigation() {
       className="w-full max-w-3xl md:max-w-fit [&>div]:!w-full"
     >
       <NavigationMenuList className="flex w-full justify-between">
-        {CATEGORIES.map(({ id, label, to }) => (
+        {PRODUCTS_PAGE_CATEGORIES.map(({ id, label, to }) => (
           <NavigationMenuItem key={id}>
             <NavLink to={to} end={to === "/products"}>
               {({ isActive }) => (

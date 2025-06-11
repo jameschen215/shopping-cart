@@ -3,32 +3,37 @@ import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { TypographyH1 } from "@/components/typography";
 
-import { HOMEPAGE_CATEGORIES } from "@/lib/constants";
+import { LANDING_PAGE_CATEGORIES } from "@/lib/constants";
 import AppCarousel from "@/components/app-carousel";
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-2">
-      <TypographyH1 className="font-display my-12 flex flex-col items-center justify-center gap-2 md:mt-5 md:mb-20 md:flex-row">
-        <span>Shop Smarter,</span>
-        <span>Live Better</span>
-      </TypographyH1>
+    <div className="flex w-full max-w-2xs flex-1 flex-col items-center justify-center px-2 md:max-w-2xl">
+      <TitleWrapper />
 
-      <div className="max-w-2xs md:max-w-2xl">
-        <AppCarousel slides={HOMEPAGE_CATEGORIES} />
+      <AppCarousel slides={LANDING_PAGE_CATEGORIES} />
 
-        <ButtonContainer />
-      </div>
+      <ButtonWrapper />
     </div>
   );
 }
 
-function ButtonContainer() {
+function TitleWrapper() {
+  return (
+    <TypographyH1 className="font-display my-12 flex flex-col items-center justify-center gap-2 md:mt-5 md:mb-20 md:flex-row">
+      <span>Shop Smarter,</span>
+      <span>Live Better</span>
+    </TypographyH1>
+  );
+}
+
+function ButtonWrapper() {
   return (
     <div className="my-10 flex w-full flex-col gap-4 md:flex-row md:justify-center md:gap-10">
       <Button className="flex flex-1 cursor-pointer rounded-[2px]" asChild>
         <NavLink to={"/products"}>Shop Now</NavLink>
       </Button>
+
       <Button
         variant={"outline"}
         className="flex flex-1 cursor-pointer rounded-[2px]"

@@ -34,6 +34,7 @@ export default function SearchForm() {
     <Form
       role="search"
       id="search-form"
+      aria-busy={searching}
       className="relative w-full max-w-3xl md:max-w-3xs"
     >
       <Input
@@ -63,7 +64,10 @@ export default function SearchForm() {
         className="b border-muted-foreground absolute top-1/2 left-2 size-4 -translate-y-1/2 animate-spin rounded-full border border-t-transparent"
       />
 
-      <div className="sr-only" aria-live="polite" />
+      {/* Accessible search status */}
+      <div className="sr-only" aria-live="polite">
+        {searching ? "Searching products" : ""}
+      </div>
     </Form>
   );
 }

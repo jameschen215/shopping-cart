@@ -19,9 +19,8 @@ export function ProductDetails({ product }: { product: ProductType }) {
   const [count, setCount] = useState(1);
   const navigate = useNavigate();
 
-  const { setCartItems } = useCart();
-
   const { user } = useAuth();
+  const { setCartItems } = useCart();
 
   function handleCountChange(newCount: number) {
     setCount(newCount);

@@ -99,6 +99,7 @@ export default function LoginPage() {
           className="flex w-full flex-col gap-6 p-8"
           onSubmit={handleSubmit}
         >
+          {/* Row 1 for username */}
           <div className="space-y-3">
             <Label htmlFor="username">Username</Label>
             <Input
@@ -112,7 +113,6 @@ export default function LoginPage() {
               aria-invalid={Boolean(errors?.username)}
             />
 
-            {/* describedby */}
             {errors?.username && (
               <span
                 id="username-error"
@@ -124,6 +124,8 @@ export default function LoginPage() {
               </span>
             )}
           </div>
+
+          {/* Row 2 for password */}
           <div className="space-y-3">
             <Label htmlFor="password">Password</Label>
             <Input
@@ -147,6 +149,8 @@ export default function LoginPage() {
               </span>
             )}
           </div>
+
+          {/* Row 3 for fake user */}
           <div className="flex items-center justify-start gap-2">
             <Input
               type="checkbox"
@@ -167,6 +171,8 @@ export default function LoginPage() {
               {errors?.form}
             </span>
           )}
+
+          {/* Row 4 for submit button */}
           <div className="space-y-3">
             <Button
               type="submit"

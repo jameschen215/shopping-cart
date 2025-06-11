@@ -96,7 +96,7 @@ function BrandAndLogo() {
           src={logo}
           alt="Odin Store logo"
           loading="eager"
-          className="size-6"
+          className="size-[22px]"
         />
         <span className="font-brand hidden text-2xl font-normal sm:inline-block">
           Odin Store

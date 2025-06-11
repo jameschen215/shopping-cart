@@ -9,7 +9,7 @@ import {
 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 
-import { useCart } from "@/lib/hooks";
+import { useAuth, useCart } from "@/lib/hooks";
 import { formatCurrency } from "@/lib/utils";
 import StarRating from "@/pages/product/components/StarRating";
 import ProductCount from "@/components/product-count";
@@ -19,14 +19,29 @@ export function ProductDetails({ product }: { product: ProductType }) {
   const [count, setCount] = useState(1);
   const navigate = useNavigate();
 
-  const { cartItems, setCartItems } = useCart();
+  const { setCartItems } = useCart();
+
+  const { user } = useAuth();
 
   function handleCountChange(newCount: number) {
     setCount(newCount);
   }
 
-  function handleSubmit() {
-    // Add to cart, todo:
+  function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+
+    if (!user) {
+      toast.success("You can sign in to get your cart.", {
+        action: {
+          label: "Sign in",
+          onClick: () => navigate("/login"),
+        },
+      });
+
+      return;
+    }
+
+    // Add to cart
     setCartItems((prev) => {
       const existingItem = prev.find((item) => item.product.id === product.id);
       if (existingItem) {
@@ -47,8 +62,6 @@ export function ProductDetails({ product }: { product: ProductType }) {
         onClick: () => navigate("/cart"),
       },
     });
-
-    console.log(cartItems);
   }
 
   return (

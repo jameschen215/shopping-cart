@@ -11,7 +11,7 @@ vi.mock("@/lib/hooks", () => ({
 
 const mockedUseTheme = useTheme as ReturnType<typeof vi.fn>;
 
-describe("ModeToggle Component", () => {
+describe("ModeToggle", () => {
   it("renders with light theme and switches to dark", async () => {
     const user = userEvent.setup();
     const setTheme = vi.fn();

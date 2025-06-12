@@ -48,11 +48,20 @@ export default function ProductCount({
         onClick={handleDecrement}
         disabled={count <= 1}
         className="cursor-pointer"
+        aria-label="Decrement by one"
       >
-        <Minus />
+        <Minus aria-hidden="true" />
       </Button>
 
-      <div className="flex size-5 items-center justify-center">{count}</div>
+      <div
+        className="flex size-5 items-center justify-center"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-label="Quantity"
+        data-testid="quantity"
+      >
+        {count}
+      </div>
 
       <Button
         type="button"
@@ -60,8 +69,9 @@ export default function ProductCount({
         size={"icon"}
         onClick={handleIncrement}
         className="cursor-pointer"
+        aria-label="Increment by one"
       >
-        <Plus />
+        <Plus aria-hidden="true" />
       </Button>
     </div>
   );

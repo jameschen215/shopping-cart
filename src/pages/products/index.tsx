@@ -7,6 +7,7 @@ import SearchForm from "@/pages/products/components/SearchForm";
 import ProductCards from "@/pages/products/components/ProductCards";
 import { useStayOnRoute } from "@/lib/hooks";
 import ProductsSkeleton from "@/components/skeletons/ProductsSkeleton";
+import { PRODUCTS_PAGE_CATEGORIES } from "@/lib/constants";
 
 export default function ProductsPage() {
   const { category } = useParams();
@@ -15,6 +16,14 @@ export default function ProductsPage() {
   let products = data.slice();
 
   if (category) {
+    if (
+      PRODUCTS_PAGE_CATEGORIES.map((c) => c.label).find(
+        (c) => c === category,
+      ) === undefined
+    ) {
+      throw new Error("Category not Found");
+    }
+
     products = products.filter(
       (p) => p.category.slice(0, 2) === category.slice(0, 2),
     );

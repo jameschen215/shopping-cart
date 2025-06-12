@@ -6,6 +6,11 @@ export default async function productLoader({ params }: LoaderFunctionArgs) {
 
   try {
     const product = await getProduct(id);
+
+    if (!product) {
+      throw new Response("", { status: 404, statusText: "Not Found" });
+    }
+
     return { product };
   } catch (error) {
     if (error instanceof ApiError) {

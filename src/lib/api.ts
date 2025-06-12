@@ -94,12 +94,11 @@ export async function getProduct(id: number): Promise<ProductType> {
     const data = await apiFetch<ProductType>(`/products/${id}`);
     return data;
   } catch (error) {
-    console.error(`Failed to fetch product ${id}`, error);
+    // console.error(`Failed to fetch product ${id}`, error);
 
-    // if (error instanceof ApiError && error.status === 404) {
-    //   throw new Response("Product not found", { status: 404 });
-    // }
-    if (error instanceof ApiError) throw error;
+    if (error instanceof ApiError && error.status === 404) {
+      throw new Response("Product not found", { status: 404 });
+    }
 
     throw new ApiError(`Failed to fetch product ${id}`);
   }

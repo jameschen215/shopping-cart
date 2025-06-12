@@ -16,6 +16,14 @@ export default function ProductCards({
 }: {
   products: ProductType[];
 }) {
+  if (products.length === 0) {
+    return (
+      <div className="mt-30 flex flex-1 justify-center text-xl">
+        No item found.
+      </div>
+    );
+  }
+
   return (
     <div className="my-6 grid w-full [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))] place-items-center gap-5">
       {products.map((product) => (

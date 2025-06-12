@@ -24,56 +24,65 @@ export const routes = [
     ErrorBoundary: ErrorPage,
     children: [
       {
-        index: true,
-        Component: LandingPage,
-        ErrorBoundary: ErrorPage,
-        loader: landingPageLoader,
-      },
-      {
-        path: "products",
         ErrorBoundary: ErrorPage,
         children: [
           {
             index: true,
-            loader: productsLoader,
+            Component: LandingPage,
+            // ErrorBoundary: ErrorPage,
+            loader: landingPageLoader,
+          },
+          {
+            path: "products",
+            ErrorBoundary: ErrorPage,
+            children: [
+              {
+                ErrorBoundary: ErrorPage,
+                children: [
+                  {
+                    index: true,
+                    loader: productsLoader,
+                    Component: () => (
+                      <Suspense fallback={<ProductsSkeleton />}>
+                        <ProductsPage />
+                      </Suspense>
+                    ),
+                  },
+                  {
+                    path: "category/:category",
+                    loader: productsLoader,
+                    Component: () => (
+                      <Suspense fallback={<ProductsSkeleton />}>
+                        <ProductsPage />
+                      </Suspense>
+                    ),
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: "product/:productId",
+            loader: productLoader,
             Component: () => (
-              <Suspense fallback={<ProductsSkeleton />}>
-                <ProductsPage />
+              <Suspense fallback={<ProductSkeleton />}>
+                <ProductPage />
               </Suspense>
             ),
           },
           {
-            path: "category/:category",
-            loader: productsLoader,
+            path: "cart",
             Component: () => (
-              <Suspense fallback={<ProductsSkeleton />}>
-                <ProductsPage />
+              <Suspense fallback={<CartSkeleton />}>
+                <CartPage />
               </Suspense>
             ),
           },
+          {
+            path: "login",
+            Component: LoginPage,
+          },
         ],
-      },
-      {
-        path: "product/:productId",
-        ErrorBoundary: ErrorPage,
-        loader: productLoader,
-        Component: () => (
-          <Suspense fallback={<ProductSkeleton />}>
-            <ProductPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "cart",
-        Component: () => (
-          <Suspense fallback={<CartSkeleton />}>
-            <CartPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: "login",
-        Component: LoginPage,
       },
     ],
   },

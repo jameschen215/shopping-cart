@@ -3,7 +3,7 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/lib/hooks";
 
-export function ModeToggle() {
+export default function ModeToggle() {
   const { theme, setTheme } = useTheme();
 
   function handleClick() {

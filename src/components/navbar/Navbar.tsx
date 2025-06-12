@@ -1,7 +1,7 @@
-import { ModeToggle } from "@/components/mode-toggle";
-import CartButton from "@/components/navbar/components/CartButton";
-import BrandAndLogo from "@/components/navbar/components/BrandAndLogo";
-import NavDropdownMenu from "@/components/navbar/components/NavDropdownMenu";
+import BrandAndLogo from "@/components/navbar/BrandAndLogo";
+import CartButton from "@/components/navbar/CartButton";
+import NavDropdownMenu from "@/components/navbar/NavDropdownMenu";
+import ModeToggle from "@/components/navbar/ModeToggle";
 
 export default function Navbar() {
   return (

@@ -12,15 +12,13 @@ export default function CartButton() {
 
   return (
     <Button variant="ghost" size="icon" className="relative" asChild>
-      <Link
-        to="/cart"
-        aria-label={`Shopping cart with ${cartItems.length} items`}
-      >
-        <ShoppingCart className="size-5" strokeWidth={1.5} />
+      <Link to="/cart" aria-label={`Shopping cart with ${itemsNumber} items`}>
+        <ShoppingCart className="size-5" strokeWidth={1.5} aria-hidden="true" />
         {cartItems.length > 0 && user !== null && (
           <Badge
             className="absolute -top-1 -right-1 flex size-5 items-center justify-center overflow-visible bg-transparent p-0 text-xs font-medium text-rose-500"
             aria-hidden="true"
+            data-testid="badge"
           >
             {itemsNumber > 99 ? "99+" : itemsNumber}
           </Badge>

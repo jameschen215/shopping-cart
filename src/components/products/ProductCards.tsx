@@ -9,7 +9,7 @@ import {
 
 import { formatCurrency } from "@/lib/utils";
 import type { ProductType } from "@/lib/types";
-import StarRating from "@/pages/product/components/StarRating";
+import StarRating from "@/components/product/StarRating";
 
 export default function ProductCards({
   products,

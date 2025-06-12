@@ -1,8 +1,8 @@
 /** --- pages/product/index.tsx --- */
 
 import { useLoaderData } from "react-router-dom";
-import { ImageWrapper } from "@/pages/product/components/ImageWrapper";
-import { ProductDetails } from "@/pages/product/components/ProductDetails";
+import { ImageWrapper } from "@/components/product/ImageWrapper";
+import { ProductDetails } from "@/components/product/ProductDetails";
 import type { ProductType } from "@/lib/types";
 import { useStayOnRoute } from "@/lib/hooks";
 import ProductSkeleton from "@/components/skeletons/ProductSkeleton";

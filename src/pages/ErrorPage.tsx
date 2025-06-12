@@ -1,9 +1,15 @@
 import { TypographyH1, TypographyP } from "@/components/typography";
-import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  isRouteErrorResponse,
+  useNavigate,
+  useRouteError,
+} from "react-router-dom";
 
 export default function ErrorPage() {
   const error = useRouteError();
   let errorInfo = "";
+  const navigate = useNavigate();
 
   if (isRouteErrorResponse(error)) {
     errorInfo = error.data;
@@ -20,6 +26,14 @@ export default function ErrorPage() {
       <TypographyP>
         <em>{errorInfo}</em>
       </TypographyP>
+
+      <Button
+        variant={"ghost"}
+        onClick={() => navigate(-1)}
+        className="text-foreground/75 decoration-foreground/75 mt-10 cursor-pointer text-lg font-light underline underline-offset-4"
+      >
+        Go back
+      </Button>
     </div>
   );
 }

@@ -2,9 +2,9 @@
 
 import type { ProductType } from "@/lib/types";
 import { useLoaderData, useParams } from "react-router-dom";
-import CategoryNavigation from "@/pages/products/components/CategoryNavigation";
-import SearchForm from "@/pages/products/components/SearchForm";
-import ProductCards from "@/pages/products/components/ProductCards";
+import CategoryNavigation from "@/components/products/CategoryNavigation";
+import SearchForm from "@/components/products/SearchForm";
+import ProductCards from "@/components/products/ProductCards";
 import { useStayOnRoute } from "@/lib/hooks";
 import ProductsSkeleton from "@/components/skeletons/ProductsSkeleton";
 import { PRODUCTS_PAGE_CATEGORIES } from "@/lib/constants";

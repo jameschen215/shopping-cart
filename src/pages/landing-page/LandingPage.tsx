@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { TypographyH1 } from "@/components/typography";
 
 import { LANDING_PAGE_CATEGORIES } from "@/lib/constants";
-import AppCarousel from "@/components/app-carousel";
+import AppCarousel from "@/components/landing-page/AppCarousel";
 
 export default function LandingPage() {
   return (

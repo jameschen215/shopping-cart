@@ -5,7 +5,7 @@ import { useState, type ReactNode } from "react";
 import type { UserType } from "@/lib/types";
 import { getStoredToken, getStoredUser, login, logout } from "@/lib/auth";
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export default function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState(() => getStoredToken());
   const [user, setUser] = useState<UserType | null>(() => getStoredUser());
 

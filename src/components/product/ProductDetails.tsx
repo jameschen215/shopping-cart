@@ -11,8 +11,8 @@ import { Button } from "@/components/ui/button";
 
 import { useAuth, useCart } from "@/lib/hooks";
 import { formatCurrency } from "@/lib/utils";
-import StarRating from "@/pages/product/components/StarRating";
-import ProductCount from "@/components/product-count";
+import StarRating from "@/components/product/StarRating";
+import ProductCount from "@/components/others/ProductCount";
 import type { ProductType } from "@/lib/types";
 
 export function ProductDetails({ product }: { product: ProductType }) {

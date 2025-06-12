@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "@/assets/styles/global.css";
 
 import { routes } from "@/routes/routes";
-import { ThemeProvider } from "@/context/ThemeProvider";
+import ThemeProvider from "@/context/ThemeProvider";
 import CartProvider from "@/context/CartProvider";
 
 const router = createBrowserRouter(routes);

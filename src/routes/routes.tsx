@@ -1,10 +1,8 @@
 /** --- routes/routes.tsx --- */
 
 import App from "@/components/App";
-import ErrorPage from "@/pages/error";
-import LandingPage from "@/pages/landing-page";
+
 import productLoader from "@/pages/product/product-loader";
-import LoginPage from "@/pages/login";
 
 import { productsLoader } from "@/pages/products/products-loader";
 import landingPageLoader from "@/pages/landing-page/landing-page-loader";
@@ -13,9 +11,13 @@ import ProductsSkeleton from "@/components/skeletons/ProductsSkeleton";
 import ProductSkeleton from "@/components/skeletons/ProductSkeleton";
 import CartSkeleton from "@/components/skeletons/CartSkeleton";
 
-const ProductsPage = lazy(() => import("@/pages/products"));
-const ProductPage = lazy(() => import("@/pages/product"));
-const CartPage = lazy(() => import("@/pages/cart"));
+import ErrorPage from "@/pages/ErrorPage";
+import LandingPage from "@/pages/landing-page/LandingPage";
+import LoginPage from "@/pages/LoginPage";
+
+const ProductsPage = lazy(() => import("@/pages/products/ProductsPage"));
+const ProductPage = lazy(() => import("@/pages/product/ProductPage"));
+const CartPage = lazy(() => import("@/pages/CartPage"));
 
 export const routes = [
   {

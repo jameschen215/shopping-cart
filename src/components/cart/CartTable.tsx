@@ -18,7 +18,7 @@ import { Trash2 } from "lucide-react";
 import { useCart } from "@/lib/hooks";
 import { formatCurrency } from "@/lib/utils";
 import type { ProductType } from "@/lib/types";
-import ProductCount from "@/components/product-count";
+import ProductCount from "@/components/others/ProductCount";
 
 export default function CartTable() {
   const { cartItems, setCartItems } = useCart();

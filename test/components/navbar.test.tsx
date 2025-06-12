@@ -1,57 +1,44 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-import Navbar from "@/components/navbar";
+import { describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 
-const renderNavbar = () => {
-  return render(
-    <MemoryRouter initialEntries={["/products"]}>
-      <Navbar />
-    </MemoryRouter>,
-  );
-};
+import AuthProvider from "@/context/AuthProvider";
+import CartProvider from "@/context/CartProvider";
+import Navbar from "@/components/navbar/Navbar";
 
-describe("Navbar Component", () => {
-  it("renders all navigation links", () => {
-    renderNavbar();
+/* Mock child components */
+vi.mock("@/components/navbar/BrandAndLogo", () => ({
+  default: () => <div>Mocked BrandAndLogo</div>,
+}));
 
-    // Main Navbar
-    expect(
-      screen.getByRole("navigation", { name: /main navigation/i }),
-    ).toBeInTheDocument();
+vi.mock("@/components/navbar/CartButton", () => ({
+  default: () => <div>Mocked CartButton</div>,
+}));
 
-    // Brand Logo
-    expect(
-      screen.getByRole("link", { name: /odin store.*homepage/i }),
-    ).toBeInTheDocument();
+vi.mock("@/components/navbar/ModeToggle", () => ({
+  default: () => <div>Mocked ModeToggle</div>,
+}));
 
-    // Home Link
-    expect(screen.getByRole("link", { name: "HOME" })).toBeInTheDocument();
+vi.mock("@/components/navbar/NavDropdownMenu", () => ({
+  default: () => <div>Mocked NavDropdownMenu</div>,
+}));
 
-    // Shop Link exists and is active
-    const shopLink = screen.getByRole("link", { name: "SHOP" });
-    expect(shopLink).toBeInTheDocument();
-    expect(shopLink).toHaveClass("active");
+describe("Navbar", () => {
+  it("should render header and all child components", () => {
+    render(
+      <MemoryRouter>
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+          </CartProvider>
+        </AuthProvider>
+      </MemoryRouter>,
+    );
 
-    // Cart Link
-    expect(screen.getByRole("link", { name: "CART" })).toBeInTheDocument();
-  });
-
-  it("renders theme button correctly", () => {
-    renderNavbar();
-
-    expect(screen.getByTestId("mode-toggle")).toBeInTheDocument();
-  });
-
-  it("renders avatar and dropdown menu correctly", async () => {
-    const user = userEvent.setup();
-    renderNavbar();
-
-    const photoTrigger = screen.getByTestId("user-photo");
-    expect(photoTrigger).toBeInTheDocument();
-
-    await user.click(photoTrigger);
-    expect(screen.getByText(/logout/i)).toBeInTheDocument();
+    expect(screen.getByRole("banner")).toBeInTheDocument(); // header landmark
+    expect(screen.getByText("Mocked BrandAndLogo")).toBeInTheDocument();
+    expect(screen.getByText("Mocked CartButton")).toBeInTheDocument();
+    expect(screen.getByText("Mocked ModeToggle")).toBeInTheDocument();
+    expect(screen.getByText("Mocked NavDropdownMenu")).toBeInTheDocument();
   });
 });

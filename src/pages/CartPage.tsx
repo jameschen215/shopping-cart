@@ -2,12 +2,13 @@
 
 import { getStoredUser } from "@/lib/auth";
 import { useCart, useStayOnRoute } from "@/lib/hooks";
-import CartTable from "./components/CartTable";
-import ButtonGroup from "./components/ButtonGroup";
-import NoUserCartPage from "./components/NoUserCartPage";
-import NoItemCartPage from "./components/NoItemCartPage";
+
 import { TypographyH1 } from "@/components/typography";
 import CartSkeleton from "@/components/skeletons/CartSkeleton";
+import NoUserCartPage from "@/components/cart/NoUserCartPage";
+import NoItemCartPage from "@/components/cart/NoItemCartPage";
+import CartTable from "@/components/cart/CartTable";
+import ButtonGroup from "@/components/cart/ButtonGroup";
 
 export default function CartPage() {
   const { cartItems } = useCart();

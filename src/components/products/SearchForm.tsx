@@ -27,7 +27,6 @@ export default function SearchForm() {
 
     const isFirstSearch = q === null;
     submit(ev.currentTarget.form, { replace: !isFirstSearch });
-    // submit(ev.currentTarget.form);
   }
 
   return (

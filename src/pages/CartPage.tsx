@@ -9,7 +9,6 @@ import CartSkeleton from "@/components/skeletons/CartSkeleton";
 import NoUserCartPage from "@/components/cart/NoUserCartPage";
 import NoItemCartPage from "@/components/cart/NoItemCartPage";
 import CartTable from "@/components/cart/CartTable";
-// import ButtonGroup from "@/components/cart/ButtonGroup";
 import ButtonGroup from "@/components/others/ButtonGroup";
 import { Button } from "@/components/ui/button";
 

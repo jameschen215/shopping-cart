@@ -20,7 +20,7 @@ export default function ModeToggle() {
       variant="ghost"
       size="icon"
       onClick={handleClick}
-      className="cursor-pointer"
+      className="cursor-pointer hover:bg-transparent"
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
     >
       {theme === "light" ? (

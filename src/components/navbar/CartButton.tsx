@@ -11,7 +11,12 @@ export default function CartButton() {
   const itemsNumber = cartItems.reduce((a, c) => a + c.quantity, 0);
 
   return (
-    <Button variant="ghost" size="icon" className="relative" asChild>
+    <Button
+      variant="ghost"
+      size="icon"
+      className="relative hover:bg-transparent"
+      asChild
+    >
       <Link to="/cart" aria-label={`Shopping cart with ${itemsNumber} items`}>
         <ShoppingCart className="size-5" strokeWidth={1.5} aria-hidden="true" />
         {cartItems.length > 0 && user !== null && (

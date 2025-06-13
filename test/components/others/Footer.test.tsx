@@ -1,4 +1,4 @@
-import Footer from "@/components/footer";
+import Footer from "@/components/others/Footer";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";

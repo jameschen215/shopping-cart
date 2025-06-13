@@ -20,7 +20,12 @@ export default function NavDropdownMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer" asChild>
-        <Button variant={"ghost"} size={"icon"} aria-label="User menu">
+        <Button
+          variant={"ghost"}
+          size={"icon"}
+          aria-label="User menu"
+          className="hover:bg-transparent"
+        >
           {currentUser ? (
             <div className="bg-foreground/5 rounded-full p-1 text-xs">
               {currentUser.name.firstname.slice(0, 1).toUpperCase()}

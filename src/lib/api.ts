@@ -112,6 +112,7 @@ export async function getCart(userId: number): Promise<CartType> {
 
   try {
     const carts = await apiFetch<CartType[]>("/carts");
+
     const userCart = carts.find((cart) => cart.userId === userId);
 
     if (!userCart) {

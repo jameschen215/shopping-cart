@@ -6,9 +6,9 @@ export function ImageWrapper({ product }: { product: ProductType }) {
       <div className="h-full w-[75%] md:w-1/2">
         <img
           src={product.image}
-          alt={product.title}
+          alt={product.title || "Product image"}
           loading="lazy"
-          className="h-full w-auto object-cover"
+          className="h-full w-auto max-w-full object-cover"
         />
       </div>
     </div>

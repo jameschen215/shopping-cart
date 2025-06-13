@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 
 import { useAuth, useCart } from "@/lib/hooks";
 import { formatCurrency } from "@/lib/utils";
-import StarRating from "@/components/product/StarRating";
+import StarRating from "@/components/others/StarRating";
 import ProductCount from "@/components/others/ProductCount";
 import type { ProductType } from "@/lib/types";
 

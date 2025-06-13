@@ -16,10 +16,19 @@ export default function StarRating({
   max = 5,
   justStar = false,
 }: StarRatingPropsType) {
+  if (max <= 0) return null;
+
   return (
-    <div className="flex items-center gap-1">
+    <div
+      className="flex items-center gap-1"
+      role="img"
+      aria-label={`Rating: ${rate.toFixed(1)} out of ${max}`}
+    >
       {justStar || (
-        <span className="text-foreground mr-1 text-base">
+        <span
+          className="text-foreground mr-1 text-base"
+          title={`${rate.toFixed(1)} out of ${max}`}
+        >
           {rate.toFixed(1)}
         </span>
       )}
@@ -50,6 +59,7 @@ export default function StarRating({
           </div>
         );
       })}
+
       {justStar || (
         <span className="text-foreground/75 ml-1 text-sm">
           ({formatNumberToK(count)})

@@ -1,5 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { toast } from "sonner";
 import { MemoryRouter } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi, type Mock } from "vitest";
 
 import * as hooks from "@/lib/hooks";
@@ -35,6 +37,12 @@ const mockCartItems = [
   },
 ];
 
+vi.mock("sonner", () => ({
+  toast: {
+    info: vi.fn(),
+  },
+}));
+
 // Mock hooks
 vi.mock("@/lib/hooks", async () => {
   const actual = await vi.importActual("@/lib/hooks");
@@ -61,10 +69,6 @@ vi.mock("@/components/cart/NoItemCartPage", () => ({
 
 vi.mock("@/components/cart/CartTable", () => ({
   default: () => <div>Mock CartTable</div>,
-}));
-
-vi.mock("@/components/cart/ButtonGroup", () => ({
-  default: () => <div>Mock ButtonGroup</div>,
 }));
 
 // Type-safe setup
@@ -102,28 +106,63 @@ const renderComponent = ({
 };
 
 describe("CartPage", () => {
-  it("should render loading skeleton if stillOnCart is true", () => {
-    renderComponent({ isLoading: true });
+  describe("isLoading", () => {
+    it("should render loading skeleton if stillOnCart is true", () => {
+      renderComponent({ isLoading: true });
 
-    expect(screen.getByText("Mock CartSkeleton")).toBeInTheDocument();
+      expect(screen.getByText("Mock CartSkeleton")).toBeInTheDocument();
+    });
   });
 
-  it("should render NoUserCartPage if user is not logged in", () => {
-    renderComponent({ user: null });
+  describe("Logged out or no item", () => {
+    it("should render NoUserCartPage if user is not logged in", () => {
+      renderComponent({ user: null });
 
-    expect(screen.getByText("Mock NoUserCartPage")).toBeInTheDocument();
+      expect(screen.getByText("Mock NoUserCartPage")).toBeInTheDocument();
+    });
+
+    it("should render NoItemCartPage if cart is empty", () => {
+      renderComponent({ items: [] });
+
+      expect(screen.getByText("Mock NoItemCartPage")).toBeInTheDocument();
+    });
   });
 
-  it("should render NoItemCartPage if cart is empty", () => {
-    renderComponent({ items: [] });
+  describe("Logged in and has items", () => {
+    it("should render CartTable", () => {
+      renderComponent();
 
-    expect(screen.getByText("Mock NoItemCartPage")).toBeInTheDocument();
-  });
+      expect(screen.getByText("Mock CartTable")).toBeInTheDocument();
+    });
 
-  it("should render CartTable and ButtonGroup when user logged in and cart has items", () => {
-    renderComponent();
+    it("should render both buttons with correct text", () => {
+      renderComponent();
 
-    expect(screen.getByText("Mock CartTable")).toBeInTheDocument();
-    expect(screen.getByText("Mock ButtonGroup")).toBeInTheDocument();
+      const checkoutButton = screen.getByRole("button", { name: /checkout/i });
+      const shoppingLink = screen.getByRole("link", { name: /shopping/i });
+
+      expect(checkoutButton).toBeInTheDocument();
+      expect(shoppingLink).toBeInTheDocument();
+    });
+
+    it("should call toast.info when clicking on checkout button", async () => {
+      renderComponent();
+      const user = userEvent.setup();
+      const checkoutButton = screen.getByRole("button", { name: /checkout/i });
+
+      await user.click(checkoutButton);
+
+      expect(toast.info).toHaveBeenCalledWith(
+        "Sorry, checkout is coming soon.",
+      );
+    });
+
+    it("should render the shopping button with correct link", () => {
+      renderComponent();
+
+      const shoppingLink = screen.getByRole("link", { name: /shopping/i });
+
+      expect(shoppingLink).toHaveAttribute("href", "/products");
+    });
   });
 });

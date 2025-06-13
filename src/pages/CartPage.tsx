@@ -1,7 +1,6 @@
 /** --- pages/cart/index.tsx --- */
 
-import { getStoredUser } from "@/lib/auth";
-import { useCart, useStayOnRoute } from "@/lib/hooks";
+import { useAuth, useCart, useStayOnRoute } from "@/lib/hooks";
 
 import { TypographyH1 } from "@/components/typography";
 import CartSkeleton from "@/components/skeletons/CartSkeleton";
@@ -12,7 +11,7 @@ import ButtonGroup from "@/components/cart/ButtonGroup";
 
 export default function CartPage() {
   const { cartItems } = useCart();
-  const user = getStoredUser();
+  const { user } = useAuth();
 
   const stillOnCart = useStayOnRoute("/cart");
 

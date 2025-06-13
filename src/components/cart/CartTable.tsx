@@ -127,7 +127,9 @@ export default function CartTable() {
             Total
           </TableCell>
           <TableCell className="text-center">
-            {formatCurrency(totalPrice)}
+            <span aria-label="Total price" data-testid="total-price">
+              {formatCurrency(totalPrice)}
+            </span>
           </TableCell>
         </TableRow>
       </TableFooter>

@@ -1,8 +1,10 @@
 import { TypographyH1 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function NoUserCartPage() {
+  const location = useLocation();
+
   return (
     <div className="mt-30 flex flex-1 flex-col items-center gap-6">
       <TypographyH1>Your cart is empty</TypographyH1>
@@ -22,7 +24,9 @@ export default function NoUserCartPage() {
           className="cursor-pointer rounded-xs py-5 md:min-w-[200px]"
           asChild
         >
-          <Link to={"/login"}>Sign in</Link>
+          <Link to={"/login"} state={{ from: location }}>
+            Sign in
+          </Link>
         </Button>
       </div>
     </div>

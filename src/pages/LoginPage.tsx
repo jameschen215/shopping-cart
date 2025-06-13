@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,20 +24,22 @@ const loginSchema = z.object({
 export type LoginDataType = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const { token } = useAuth();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const { token } = useAuth();
+  const location = useLocation();
+  const from = location.state.from.pathname || "/";
+
   useEffect(() => {
     if (token) {
-      navigate("/products", { replace: true });
+      navigate(from, { replace: true });
     }
-  }, [token, navigate]);
+  }, [token, from, navigate]);
 
   function handleUsernameChange(ev: React.ChangeEvent<HTMLInputElement>) {
     setUsername(ev.target.value);
@@ -78,7 +80,7 @@ export default function LoginPage() {
 
       await login(username, password);
       toast.success("Login successfully!");
-      navigate("/products");
+      navigate(from, { replace: true });
     } catch (err) {
       setErrors({ form: (err as Error).message });
     } finally {

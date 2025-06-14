@@ -1,80 +1,81 @@
-// test/services/api.test.ts
+/* --- @/test/services/api.test.ts --- */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import {
-  getProducts,
-  getProduct,
-  getCart,
-  getCachedProducts,
-  clearCache,
-  ApiError,
-} from "../api";
-import type { ProductType, CartType } from "@/lib/types";
+import productLoader from "@/pages/product/product-loader";
+import { ApiError, getProduct } from "@/services/api";
+import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 
-// Mock fetch globally
-const mockFetch = vi.fn();
-global.fetch = mockFetch;
+vi.mock("@/services/api", async () => {
+  const actual =
+    await vi.importActual<typeof import("@/services/api")>("@/services/api");
 
-// Mock data
-const mockProducts: ProductType[] = [
-  {
-    id: 1,
-    title: "Test Product 1",
-    category: "electronics",
-    description: "A test product",
-    price: 29.99,
-    image: "test-image-1.jpg",
-    rating: { rate: 4.5, count: 100 },
-  },
-  {
-    id: 2,
-    title: "Test Product 2",
-    category: "clothing",
-    description: "Another test product",
-    price: 19.99,
-    image: "test-image-2.jpg",
-    rating: { rate: 4.0, count: 50 },
-  },
-];
-
-const mockProduct: ProductType = {
-  id: 1,
-  title: "Single Test Product",
-  category: "electronics",
-  description: "A single test product",
-  price: 39.99,
-  image: "single-test-image.jpg",
-  rating: { rate: 4.8, count: 200 },
-};
-
-const mockCarts: CartType[] = [
-  {
-    id: 1,
-    userId: 1,
-    products: [
-      { productId: 1, quantity: 2 },
-      { productId: 2, quantity: 1 },
-    ],
-  },
-  {
-    id: 2,
-    userId: 2,
-    products: [{ productId: 1, quantity: 1 }],
-  },
-];
-
-// Helper function to create mock response
-const createMockResponse = (data: unknown, ok = true, status = 200) => ({
-  ok,
-  status,
-  statusText: status === 200 ? "OK" : "Error",
-  json: vi.fn().mockResolvedValue(data),
+  return {
+    ...actual,
+    getProduct: vi.fn(),
+  };
 });
 
-describe("ApiError", () => {
-  it("should create an ApiError with message", () => {
-    const error = new ApiError("Test error");
+const mockedGetProduct = getProduct as unknown as Mock;
 
-    expect(error.message).toBe("Test error");
+describe("productLoader", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should return product with valid ID", async () => {
+    mockedGetProduct.mockResolvedValueOnce({ id: 1, title: "Test Product" });
+
+    const result = await productLoader({
+      params: { productId: "1" },
+      request: new Request("http://localhost/product/1"),
+      context: {},
+    });
+
+    expect(result).toEqual({ product: { id: 1, title: "Test Product" } });
+  });
+
+  it("should throw 400 for invalid ID", async () => {
+    await expect(
+      productLoader({
+        params: { productId: "abc" },
+        request: new Request("http://localhost/product/abc"),
+        context: {},
+      }),
+    ).rejects.toMatchObject({ status: 400 });
+  });
+
+  it("should throw 404 if product is not found", async () => {
+    mockedGetProduct.mockResolvedValueOnce(undefined);
+
+    await expect(
+      productLoader({
+        params: { productId: "999" },
+        request: new Request("http://localhost/product/999"),
+        context: {},
+      }),
+    ).rejects.toMatchObject({ status: 404 });
+  });
+
+  it("should throw error with ApiError status", async () => {
+    mockedGetProduct.mockRejectedValueOnce(new ApiError("Boom!", 418));
+
+    await expect(
+      productLoader({
+        params: { productId: "2" },
+        request: new Request("http://localhost/product/2"),
+        context: {},
+      }),
+    ).rejects.toMatchObject({ status: 418 });
+  });
+
+  it("should throw 500 on unknown error", async () => {
+    mockedGetProduct.mockRejectedValueOnce(new Error("Random failure"));
+
+    await expect(
+      productLoader({
+        params: { productId: "1" },
+        request: new Request("http://localhost/product/1"),
+        context: {},
+      }),
+    ).rejects.toMatchObject({ status: 500 });
   });
 });

@@ -1,3 +1,5 @@
+/* --- @/pages/product/product-loader.ts --- */
+
 import { ApiError, getProduct } from "@/services/api";
 import type { LoaderFunctionArgs } from "react-router-dom";
 

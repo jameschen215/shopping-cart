@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 
 import {
   TypographyH1,
@@ -9,58 +7,22 @@ import {
 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 
-import { useAuth, useCart } from "@/lib/hooks";
+import type { ProductType } from "@/lib/types";
+import { useAddToCart } from "@/lib/hooks";
 import { formatCurrency } from "@/lib/utils";
 import StarRating from "@/components/others/StarRating";
 import ProductCount from "@/components/others/ProductCount";
-import type { ProductType } from "@/lib/types";
 
 export function ProductDetails({ product }: { product: ProductType }) {
   const [count, setCount] = useState(1);
-  const navigate = useNavigate();
-
-  const { user } = useAuth();
-  const { setCartItems } = useCart();
+  const { addToCart } = useAddToCart();
 
   function handleCountChange(newCount: number) {
     setCount(newCount);
   }
 
-  function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
-    ev.preventDefault();
-
-    if (!user) {
-      toast.success("You can sign in to get your cart.", {
-        action: {
-          label: "Sign in",
-          onClick: () => navigate("/login"),
-        },
-      });
-
-      return;
-    }
-
-    // Add to cart
-    setCartItems((prev) => {
-      const existingItem = prev.find((item) => item.product.id === product.id);
-      if (existingItem) {
-        return prev.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + count }
-            : item,
-        );
-      } else {
-        return [...prev, { product, quantity: count }];
-      }
-    });
-
-    // display add result
-    toast.success("Item has been added to cart.", {
-      action: {
-        label: "Go to Cart",
-        onClick: () => navigate("/cart"),
-      },
-    });
+  function handleAddToCart() {
+    addToCart(product, count);
   }
 
   return (
@@ -81,13 +43,17 @@ export function ProductDetails({ product }: { product: ProductType }) {
         <StarRating rate={product.rating.rate} count={product.rating.count} />
       </div>
 
-      <Form className="flex justify-between" onSubmit={handleSubmit}>
+      <div className="flex justify-between">
         <ProductCount quantity={count} onChange={handleCountChange} />
 
-        <Button type="submit" className="cursor-pointer rounded-xs">
+        <Button
+          type="submit"
+          className="cursor-pointer rounded-xs"
+          onClick={handleAddToCart}
+        >
           Add to Cart
         </Button>
-      </Form>
+      </div>
     </div>
   );
 }

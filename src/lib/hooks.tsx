@@ -2,7 +2,9 @@ import { AuthContext } from "@/context/auth-context";
 import { CartContext } from "@/context/cart-context";
 import { ThemeProviderContext } from "@/context/theme-context";
 import { useContext } from "react";
-import { matchPath, useNavigation } from "react-router-dom";
+import { matchPath, useNavigate, useNavigation } from "react-router-dom";
+import type { ProductType } from "./types";
+import { toast } from "sonner";
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
@@ -36,4 +38,45 @@ export function useStayOnRoute(pattern: string) {
     navigation.state === "loading" &&
     matchPath(pattern, navigation.location.pathname ?? "") !== null
   );
+}
+
+export function useAddToCart() {
+  const { user } = useAuth();
+  const { setCartItems } = useCart();
+  const navigate = useNavigate();
+
+  function addToCart(product: ProductType, count: number) {
+    if (!user) {
+      toast.info("You should sign in to get your cart.", {
+        action: {
+          label: "Sign in",
+          onClick: () => navigate("/login"),
+        },
+      });
+
+      return;
+    }
+
+    setCartItems((prev) => {
+      const existingItem = prev.find((item) => item.product.id === product.id);
+      if (existingItem) {
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + count }
+            : item,
+        );
+      } else {
+        return [...prev, { product, quantity: count }];
+      }
+    });
+
+    toast.success("Item has been added to cart.", {
+      action: {
+        label: "Go to Cart",
+        onClick: () => navigate("/cart"),
+      },
+    });
+  }
+
+  return { addToCart };
 }

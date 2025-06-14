@@ -1,4 +1,4 @@
-/** --- lib/api.ts --- */
+/** --- services/api.ts --- */
 
 import type { CartType, ProductType } from "@/lib/types";
 

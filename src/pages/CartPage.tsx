@@ -16,9 +16,9 @@ export default function CartPage() {
   const { cartItems } = useCart();
   const { user } = useAuth();
 
-  const stillOnCart = useStayOnRoute("/cart");
+  const isLoading = useStayOnRoute("/cart");
 
-  if (stillOnCart) return <CartSkeleton />;
+  if (isLoading) return <CartSkeleton />;
 
   if (!user) return <NoUserCartPage />;
 

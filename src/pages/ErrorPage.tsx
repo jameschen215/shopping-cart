@@ -17,7 +17,7 @@ export default function ErrorPage() {
   }, []);
 
   if (isRouteErrorResponse(error)) {
-    errorInfo = error.data;
+    errorInfo = `${error.status} - ${error.data}`;
   } else if (error instanceof Error) {
     errorInfo = error.message;
   }
@@ -27,8 +27,10 @@ export default function ErrorPage() {
       <TypographyH1 className="mb-4">Oops!</TypographyH1>
 
       <div role="alert">
-        <TypographyP>Sorry, an unexpected error has occurred.</TypographyP>
-        <TypographyP>
+        <TypographyP className="text-center">
+          Sorry, an unexpected error has occurred.
+        </TypographyP>
+        <TypographyP className="text-center">
           <em>{errorInfo}</em>
         </TypographyP>
       </div>

@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import type { LocalCartType } from "@/lib/types";
 import { getStoredUser } from "@/lib/auth";
 import { CartContext } from "@/context/cart-context";
-import { getCart, getProduct } from "@/lib/api";
+import { getCart, getProduct } from "@/services/api";
 
 export default function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<LocalCartType[]>([]);

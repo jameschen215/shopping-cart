@@ -1,6 +1,6 @@
 /** --- pages/products/products-loader.ts --- */
 
-import { ApiError, getCachedProducts } from "@/lib/api";
+import { ApiError, getCachedProducts } from "@/services/api";
 
 export async function productsLoader({ request }: { request: Request }) {
   const url = new URL(request.url);

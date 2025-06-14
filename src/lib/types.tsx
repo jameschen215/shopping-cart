@@ -42,3 +42,5 @@ export type UserType = {
   };
   phone: string;
 };
+
+export type ProductLoaderData = { product: ProductType };

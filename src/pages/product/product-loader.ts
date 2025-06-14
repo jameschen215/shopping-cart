@@ -1,27 +1,30 @@
-import { ApiError, getProduct } from "@/lib/api";
+import { ApiError, getProduct } from "@/services/api";
 import type { LoaderFunctionArgs } from "react-router-dom";
 
 export default async function productLoader({ params }: LoaderFunctionArgs) {
   const id = Number(params.productId);
 
+  if (isNaN(id)) {
+    throw new Response("Invalid product ID", { status: 400 });
+  }
+
   try {
     const product = await getProduct(id);
 
     if (!product) {
-      throw new Response("", { status: 404, statusText: "Not Found" });
+      throw new Response("Product not found", { status: 404 });
     }
 
     return { product };
   } catch (error) {
     if (error instanceof ApiError) {
-      console.error("Product loader error:", error.name, error.message);
-
-      throw new Response(error.message, {
-        status: error.status || 500,
-      });
+      throw new Response(error.message, { status: error.status || 500 });
     }
 
-    // Unknown error
+    if (error instanceof Response) {
+      throw error;
+    }
+
     throw new Response("Unknown error occurred", { status: 500 });
   }
 }

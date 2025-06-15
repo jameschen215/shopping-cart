@@ -139,7 +139,7 @@ export default function CartTable() {
 
 function ProductCell({ product }: { product: ProductType }) {
   return (
-    <Link to={`/product/${product.id}`}>
+    <Link to={`/products/${product.id}`}>
       <div className="flex items-center gap-5 py-2">
         <div className="size-10 md:size-20">
           <img

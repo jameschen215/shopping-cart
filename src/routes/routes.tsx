@@ -64,7 +64,7 @@ export const routes = [
             ],
           },
           {
-            path: "product/:productId",
+            path: "products/:productId",
             loader: productLoader,
             Component: () => (
               <Suspense fallback={<ProductSkeleton />}>

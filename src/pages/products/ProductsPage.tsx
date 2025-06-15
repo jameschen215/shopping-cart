@@ -8,30 +8,28 @@ import ProductCards from "@/components/products/ProductCards";
 import { useStayOnRoute } from "@/lib/hooks";
 import ProductsSkeleton from "@/components/skeletons/ProductsSkeleton";
 import { PRODUCTS_PAGE_CATEGORIES } from "@/lib/constants";
+import { useMemo } from "react";
 
 export default function ProductsPage() {
   const { category } = useParams();
   const { data } = useLoaderData() as { data: ProductType[] };
 
-  let products = data.slice();
+  // Just practice it though the list is small
+  const products = useMemo(() => {
+    if (!category) return data.slice();
 
-  if (category) {
-    if (
-      PRODUCTS_PAGE_CATEGORIES.map((c) => c.label).find(
-        (c) => c === category,
-      ) === undefined
-    ) {
-      throw new Error("Category not Found");
-    }
-
-    products = products.filter(
-      (p) => p.category.slice(0, 2) === category.slice(0, 2),
+    const isValidCategory = PRODUCTS_PAGE_CATEGORIES.some(
+      (c) => c.name === category,
     );
-  }
 
-  const stillOnProducts = useStayOnRoute("/products/*");
+    if (!isValidCategory) throw new Error("Category not found");
 
-  if (stillOnProducts && category === "") return <ProductsSkeleton />;
+    return data.filter((p) => p.category.slice(0, 2) === category.slice(0, 2));
+  }, [category, data]);
+
+  const isLoading = useStayOnRoute("/products/*");
+
+  if (isLoading && category === "") return <ProductsSkeleton />;
 
   return (
     <>

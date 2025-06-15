@@ -4,10 +4,10 @@ import { ApiError, getCachedProducts } from "@/services/api";
 
 export async function productsLoader({ request }: { request: Request }) {
   const url = new URL(request.url);
-  const q = url.searchParams.get("q") || "";
+  const q = url.searchParams.get("q");
 
   try {
-    const data = await getCachedProducts(q);
+    const data = await getCachedProducts(q || "");
     return { data, q };
   } catch (error) {
     if (error instanceof ApiError) {

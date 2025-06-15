@@ -157,6 +157,58 @@ toast.success("Item has been added to your cart.", {
 - **Bonus:**
   This makes your app feel more dynamic and user-friendly. 🔥
 
+### Don't wrap a complex component inside a Link
+
+Wrapping a complex component like a Card inside a React Router ``can cause semantic and accessibility issues because:
+
+- The `<Link>` renders as an `<a>` tag.
+
+- Nesting interactive elements inside an `<a>` (like buttons or other links) is invalid HTML.
+
+- It can cause unexpected behavior or warnings in browsers and screen readers.
+
+**How to solve it:**
+Instead of wrapping the entire Card in a <Link>, you can:
+
+1. Render the Card as a button or div.
+
+2. Use React Router's useNavigate hook to programmatically navigate on click.
+
+Example code:
+
+```tsx
+import { useNavigate } from "react-router-dom";
+
+export default function ProductCards({
+  products,
+}: {
+  products: ProductType[];
+}) {
+  const navigate = useNavigate();
+
+  return (
+    <div className="my-6 grid w-full [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))] place-items-center gap-5">
+      {products.map((product) => (
+        <Card
+          key={product.id}
+          role="button"
+          tabIndex={0}
+          onClick={() => navigate(`/products/${product.id}`)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              navigate(`/products/${product.id}`);
+            }
+          }}
+          className="cursor-pointer gap-6 rounded-sm border-none px-5 shadow-lg transition-transform duration-200 hover:scale-[1.02] focus:ring-2 focus:ring-offset-2 focus:outline-none"
+        >
+          {/* ...rest of your Card content */}
+        </Card>
+      ))}
+    </div>
+  );
+}
+```
+
 <!-- --- divider --- -->
 
 # Acknowledge

@@ -16,14 +16,14 @@ export default function CategoryNavigation() {
       className="w-full max-w-3xl md:max-w-fit [&>div]:!w-full"
     >
       <NavigationMenuList className="flex w-full justify-between">
-        {PRODUCTS_PAGE_CATEGORIES.map(({ id, label, to }) => (
+        {PRODUCTS_PAGE_CATEGORIES.map(({ id, label, to, exact }) => (
           <NavigationMenuItem key={id}>
-            <NavLink to={to} end={to === "/products"}>
+            <NavLink to={to} end={exact} data-testid={`category-link-${id}`}>
               {({ isActive }) => (
                 <NavigationMenuLink
                   asChild
                   className={cn(
-                    "text-foreground/75 capitalize hover:bg-transparent hover:underline hover:underline-offset-4",
+                    "text-foreground/75 capitalize transition-colors duration-200 hover:bg-transparent hover:underline hover:underline-offset-4",
                     isActive && "text-foreground",
                   )}
                 >

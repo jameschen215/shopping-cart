@@ -32,7 +32,7 @@ export default function ProductsPage() {
   if (isLoading && category === "") return <ProductsSkeleton />;
 
   return (
-    <>
+    <div data-testid="products-page">
       {/* Category Navigation and Search Bar */}
       <div className="flex w-full flex-col items-center justify-between gap-4 py-2 md:flex-row">
         <CategoryNavigation />
@@ -41,6 +41,6 @@ export default function ProductsPage() {
 
       {/* Cards */}
       <ProductCards products={products} />
-    </>
+    </div>
   );
 }

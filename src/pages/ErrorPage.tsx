@@ -23,7 +23,10 @@ export default function ErrorPage() {
   }
 
   return (
-    <div className="mt-20 flex h-full w-full flex-1 flex-col items-center">
+    <div
+      className="mt-20 flex h-full w-full flex-1 flex-col items-center"
+      data-testid="error-page"
+    >
       <TypographyH1 className="mb-4">Oops!</TypographyH1>
 
       <div role="alert">

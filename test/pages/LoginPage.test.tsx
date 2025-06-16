@@ -32,17 +32,13 @@ vi.mock("react-router-dom", async () => {
 });
 
 const renderWithRouter = () => {
-  const router = createMemoryRouter(
-    [
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-    ],
+  const routes = [
     {
-      initialEntries: ["/login"],
+      path: "/login",
+      element: <LoginPage />,
     },
-  );
+  ];
+  const router = createMemoryRouter(routes, { initialEntries: ["/login"] });
 
   return render(<RouterProvider router={router} />);
 };
@@ -125,8 +121,8 @@ describe("LoginPage", () => {
     const passwordInput = screen.getByLabelText(/password/i);
     const submitBtn = screen.getByRole("button", { name: /sign in/i });
 
-    await user.type(usernameInput, "wrong_name");
-    await user.type(passwordInput, "wrong_password");
+    await user.type(usernameInput, "random_name");
+    await user.type(passwordInput, "random_password");
     await user.click(submitBtn);
 
     expect(await screen.findByRole("alert")).toHaveTextContent(

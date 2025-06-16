@@ -2,11 +2,10 @@
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
-import { useAuth, useCart, useStayOnRoute } from "@/lib/hooks";
+import { useCart, useStayOnRoute } from "@/lib/hooks";
 
 import { TypographyH1 } from "@/components/typography";
 import CartSkeleton from "@/components/skeletons/CartSkeleton";
-import NoUserCartPage from "@/components/cart/NoUserCartPage";
 import NoItemCartPage from "@/components/cart/NoItemCartPage";
 import CartTable from "@/components/cart/CartTable";
 import ButtonGroup from "@/components/others/ButtonGroup";
@@ -14,13 +13,9 @@ import { Button } from "@/components/ui/button";
 
 export default function CartPage() {
   const { cartItems } = useCart();
-  const { user } = useAuth();
 
   const isLoading = useStayOnRoute("/cart");
-
   if (isLoading) return <CartSkeleton />;
-
-  if (!user) return <NoUserCartPage />;
 
   if (cartItems.length === 0) return <NoItemCartPage />;
 

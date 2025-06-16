@@ -14,6 +14,7 @@ import CartSkeleton from "@/components/skeletons/CartSkeleton";
 import ErrorPage from "@/pages/ErrorPage";
 import LandingPage from "@/pages/landing-page/LandingPage";
 import LoginPage from "@/pages/LoginPage";
+import ProtectedRoute from "@/components/others/ProtectedRoute";
 
 const ProductsPage = lazy(() => import("@/pages/products/ProductsPage"));
 const ProductPage = lazy(() => import("@/pages/product/ProductPage"));
@@ -74,11 +75,17 @@ export const routes = [
           },
           {
             path: "cart",
-            Component: () => (
-              <Suspense fallback={<CartSkeleton />}>
-                <CartPage />
-              </Suspense>
-            ),
+            Component: ProtectedRoute,
+            children: [
+              {
+                index: true,
+                Component: () => (
+                  <Suspense fallback={<CartSkeleton />}>
+                    <CartPage />
+                  </Suspense>
+                ),
+              },
+            ],
           },
           {
             path: "login",

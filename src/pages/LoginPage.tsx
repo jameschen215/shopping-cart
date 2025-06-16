@@ -92,7 +92,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex w-full flex-1 flex-col items-center justify-center">
+    <div
+      className="flex w-full flex-1 flex-col items-center justify-center"
+      data-testid="login-page"
+    >
       <div className="dark:bg-foreground/5 w-full max-w-100 rounded-md bg-white px-4 py-8 shadow-2xl">
         <div className="flex w-full flex-col items-center gap-2">
           <TypographyH1 className="text-2xl md:text-3xl lg:text-3xl">

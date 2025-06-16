@@ -8,7 +8,10 @@ import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   return (
-    <div className="flex w-full max-w-2xs flex-1 flex-col items-center justify-center px-2 md:max-w-2xl">
+    <div
+      className="flex w-full max-w-2xs flex-1 flex-col items-center justify-center px-2 md:max-w-2xl"
+      data-testid="landing-page"
+    >
       {/* 1. Title */}
       <TypographyH1 className="font-display my-12 flex flex-col items-center justify-center gap-2 md:mt-5 md:mb-20 md:flex-row">
         <span>Shop Smarter, </span>

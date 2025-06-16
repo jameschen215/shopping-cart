@@ -59,12 +59,8 @@ vi.mock("@/components/skeletons/CartSkeleton", () => ({
   default: () => <div>Mock CartSkeleton</div>,
 }));
 
-vi.mock("@/components/cart/NoUserCartPage", () => ({
-  default: () => <div>Mock NoUserCartPage</div>,
-}));
-
 vi.mock("@/components/cart/NoItemCartPage", () => ({
-  default: () => <div>Mock NoItemCartPage</div>,
+  default: () => <div data-testid="no-item-page">Mock NoItemCartPage</div>,
 }));
 
 vi.mock("@/components/cart/CartTable", () => ({
@@ -114,17 +110,11 @@ describe("CartPage", () => {
     });
   });
 
-  describe("Logged out or no item", () => {
-    it("should render NoUserCartPage if user is not logged in", () => {
-      renderComponent({ user: null });
-
-      expect(screen.getByText("Mock NoUserCartPage")).toBeInTheDocument();
-    });
-
-    it("should render NoItemCartPage if cart is empty", () => {
+  describe("Logged in and cart empty", () => {
+    it("should render NoItemCartPage", () => {
       renderComponent({ items: [] });
 
-      expect(screen.getByText("Mock NoItemCartPage")).toBeInTheDocument();
+      expect(screen.getByTestId("no-item-page")).toBeInTheDocument();
     });
   });
 

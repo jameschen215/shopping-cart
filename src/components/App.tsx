@@ -1,3 +1,5 @@
+// @/components/App.tsx
+
 import { Outlet } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 import AuthProvider from "@/context/AuthProvider";

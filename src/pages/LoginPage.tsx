@@ -28,10 +28,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [useTestUser, setUseTestUser] = useState(false);
 
-  const { login } = useAuth();
+  const { login, token } = useAuth();
   const navigate = useNavigate();
-  const { token } = useAuth();
   const location = useLocation();
   const from = location.state?.from?.pathname ?? "/";
 
@@ -50,7 +50,10 @@ export default function LoginPage() {
   }
 
   function handleCheckboxChange(ev: React.ChangeEvent<HTMLInputElement>) {
-    if (ev.target.checked) {
+    const checked = ev.target.checked;
+    setUseTestUser(checked);
+
+    if (checked) {
       setUsername(testUser.username);
       setPassword(testUser.password);
     } else {
@@ -82,7 +85,7 @@ export default function LoginPage() {
       toast.success("Login successfully!");
       navigate(from, { replace: true });
     } catch (err) {
-      setErrors({ form: (err as Error).message });
+      setErrors({ form: err instanceof Error ? err.message : "Unknown error" });
     } finally {
       setIsLoggingIn(false);
     }
@@ -109,6 +112,7 @@ export default function LoginPage() {
               id="username"
               name="username"
               className="rounded-sm"
+              autoComplete="username"
               value={username}
               onChange={handleUsernameChange}
               aria-labelledby={errors?.username ? "username-error" : undefined}
@@ -135,10 +139,11 @@ export default function LoginPage() {
               id="password"
               name="password"
               className="rounded-sm"
+              autoComplete="current-password"
               value={password}
               onChange={handlePasswordChange}
               aria-labelledby={errors?.password ? "password-error" : undefined}
-              aria-hidden={Boolean(errors?.password)}
+              aria-invalid={Boolean(errors?.password)}
             />
             {errors?.password && (
               <span
@@ -158,6 +163,7 @@ export default function LoginPage() {
               type="checkbox"
               id="auto-login"
               className="size-4"
+              checked={useTestUser}
               onChange={handleCheckboxChange}
             />
             <Label htmlFor="auto-login">

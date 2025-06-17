@@ -1,4 +1,4 @@
-import { cn, formatNumberToK } from "@/lib/utils";
+import { cn, formatNumberToCompactNotation } from "@/lib/utils";
 import { Star } from "lucide-react";
 
 type StarRatingPropsType = {
@@ -62,7 +62,7 @@ export default function StarRating({
 
       {justStar || (
         <span className="text-foreground/75 ml-1 text-sm">
-          ({formatNumberToK(count)})
+          ({formatNumberToCompactNotation(count)})
         </span>
       )}
     </div>

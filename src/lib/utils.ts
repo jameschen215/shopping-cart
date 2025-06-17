@@ -12,7 +12,7 @@ export function formatCurrency(price: number) {
   }).format(price);
 }
 
-export function formatNumberToK(num: number) {
+export function formatNumberToCompactNotation(num: number) {
   return new Intl.NumberFormat("en", {
     notation: "compact",
     compactDisplay: "short", // 'short' for 'K', 'long' for 'thousand'

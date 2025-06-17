@@ -50,7 +50,7 @@ const renderComponent = () => {
   );
 };
 
-describe("useAuth hook with AuthContext", () => {
+describe("AuthProvider", () => {
   it("should render user and token from context", () => {
     renderComponent();
 

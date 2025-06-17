@@ -7,21 +7,7 @@ import { describe, expect, it, vi, type Mock } from "vitest";
 import * as hooks from "@/lib/hooks";
 import CartPage from "@/pages/CartPage";
 
-// Mock user and cart data
-const mockUser = {
-  id: 1,
-  name: { firstname: "John", lastname: "Doe" },
-  email: "john.doe@example.com",
-  username: "john-doe",
-  address: {
-    street: "123 Main St",
-    city: "Any town",
-    number: 1,
-    zipcode: "12345",
-  },
-  phone: "123-456-7890",
-};
-
+// Mock cart data
 const mockCartItems = [
   {
     product: {
@@ -45,34 +31,13 @@ vi.mock("sonner", () => ({
 
 // Mock hooks
 vi.mock("@/lib/hooks", async () => {
-  const actual = await vi.importActual("@/lib/hooks");
+  const mod = await vi.importActual("@/lib/hooks");
   return {
-    ...actual,
+    ...mod,
     useCart: vi.fn(),
-    useAuth: vi.fn(),
     useStayOnRoute: vi.fn(),
   };
 });
-
-/* Mock relevant UI components*/
-vi.mock("@/components/skeletons/CartSkeleton", () => ({
-  default: () => <div>Mock CartSkeleton</div>,
-}));
-
-vi.mock("@/components/cart/NoItemCartPage", () => ({
-  default: () => <div data-testid="no-item-page">Mock NoItemCartPage</div>,
-}));
-
-vi.mock("@/components/cart/CartTable", () => ({
-  default: () => <div>Mock CartTable</div>,
-}));
-
-// Type-safe setup
-type SetupOptionsType = {
-  isLoading?: boolean;
-  user?: typeof mockUser | null;
-  items?: typeof mockCartItems;
-};
 
 /**
  * Typed hook mocks
@@ -81,17 +46,33 @@ type SetupOptionsType = {
  * If you need to type the mock, import Mock from 'vitest'
  */
 const mockUseCart = hooks.useCart as unknown as Mock;
-const mockUseAuth = hooks.useAuth as unknown as Mock;
 const mockUseStayOnRoute = hooks.useStayOnRoute as unknown as Mock;
+
+/* Mock relevant UI components*/
+vi.mock("@/components/skeletons/CartSkeleton", () => ({
+  default: () => <div data-testid="mock-cart-skeleton" />,
+}));
+
+vi.mock("@/components/cart/NoItemCartPage", () => ({
+  default: () => <div data-testid="no-item-cart-page" />,
+}));
+
+vi.mock("@/components/cart/CartTable", () => ({
+  default: () => <div data-testid="mock-cart-table" />,
+}));
+
+// Type-safe setup
+type SetupOptionsType = {
+  isLoading?: boolean;
+  items?: typeof mockCartItems;
+};
 
 // Centralized test setup
 const renderComponent = ({
   isLoading = false,
-  user = mockUser,
   items = mockCartItems,
 }: SetupOptionsType = {}) => {
   mockUseStayOnRoute.mockReturnValue(isLoading);
-  mockUseAuth.mockReturnValue({ user });
   mockUseCart.mockReturnValue({ cartItems: items, setCartItems: vi.fn() });
 
   render(
@@ -106,7 +87,7 @@ describe("CartPage", () => {
     it("should render loading skeleton if stillOnCart is true", () => {
       renderComponent({ isLoading: true });
 
-      expect(screen.getByText("Mock CartSkeleton")).toBeInTheDocument();
+      expect(screen.getByTestId("mock-cart-skeleton")).toBeInTheDocument();
     });
   });
 
@@ -114,7 +95,7 @@ describe("CartPage", () => {
     it("should render NoItemCartPage", () => {
       renderComponent({ items: [] });
 
-      expect(screen.getByTestId("no-item-page")).toBeInTheDocument();
+      expect(screen.getByTestId("no-item-cart-page")).toBeInTheDocument();
     });
   });
 
@@ -122,7 +103,7 @@ describe("CartPage", () => {
     it("should render CartTable", () => {
       renderComponent();
 
-      expect(screen.getByText("Mock CartTable")).toBeInTheDocument();
+      expect(screen.getByTestId("mock-cart-table")).toBeInTheDocument();
     });
 
     it("should render both buttons with correct text", () => {

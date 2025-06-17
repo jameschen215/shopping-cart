@@ -1,3 +1,5 @@
+// @/lib/hooks.ts
+
 import { AuthContext } from "@/context/auth-context";
 import { CartContext } from "@/context/cart-context";
 import { ThemeProviderContext } from "@/context/theme-context";

@@ -28,14 +28,19 @@ const mockCartItems = [
   },
 ];
 
+// Define a mock for setCartItems to use in assertions
 const mockSetCartItems = vi.fn();
 
-vi.mock("@/lib/hooks", () => ({
-  useCart: () => ({
-    cartItems: mockCartItems,
-    setCartItems: mockSetCartItems,
-  }),
-}));
+vi.mock("@/lib/hooks", async () => {
+  const mod = await vi.importActual("@/lib/hooks");
+  return {
+    ...mod,
+    useCart: () => ({
+      cartItems: mockCartItems,
+      setCartItems: mockSetCartItems,
+    }),
+  };
+});
 
 const renderComponent = () => {
   render(

@@ -3,10 +3,12 @@
 import { AuthContext } from "@/context/auth-context";
 import { CartContext } from "@/context/cart-context";
 import { ThemeProviderContext } from "@/context/theme-context";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { matchPath, useNavigate, useNavigation } from "react-router-dom";
-import type { ProductType } from "./types";
+import type { LocalCartType, ProductType } from "./types";
 import { toast } from "sonner";
+import { getStoredUser } from "./auth";
+import { getCart, getProduct } from "@/services/api";
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
@@ -81,4 +83,31 @@ export function useAddToCart() {
   }
 
   return { addToCart };
+}
+
+export function useCartInitializer() {
+  const [cartItems, setCartItems] = useState<LocalCartType[]>([]);
+
+  useEffect(() => {
+    const user = getStoredUser();
+
+    if (!user) return;
+
+    async function createCartItems(id: number) {
+      const cart = await getCart(id);
+
+      const products = await Promise.all(
+        cart.products.map(async ({ productId, quantity }) => {
+          const product = await getProduct(productId);
+          return { product, quantity };
+        }),
+      );
+
+      setCartItems(products);
+    }
+
+    createCartItems(user.id);
+  }, []);
+
+  return { cartItems, setCartItems };
 }

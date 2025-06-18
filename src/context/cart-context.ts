@@ -1,5 +1,5 @@
-import type { LocalCartType } from "@/lib/types";
-import { createContext } from "react";
+import type { LocalCartType } from '@/lib/types';
+import { createContext } from 'react';
 
 export type CartContextType = {
   cartItems: LocalCartType[];

@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="mt-auto w-full max-w-[1400px] border-t px-2 py-4 text-center">
+    <footer className="mx-auto mt-auto w-full border-t px-2 py-4 text-center">
       <p className="text-foreground/80 text-xs">
-        2025 &copy; Odin Project Assignment by{" "}
+        2025 &copy; Odin Project Assignment by{' '}
         <Link
           to="https://github.com/JamesChan"
           target="_blank"

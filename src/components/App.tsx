@@ -10,7 +10,7 @@ export default function App() {
     <div className="bg-background mx-auto flex min-h-screen flex-col shadow-xl">
       <Navbar />
 
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center px-4">
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center px-4">
         <Outlet />
       </main>
 

@@ -1,20 +1,20 @@
 // @/lib/hooks.ts
 
-import { AuthContext } from "@/context/auth-context";
-import { CartContext } from "@/context/cart-context";
-import { ThemeProviderContext } from "@/context/theme-context";
-import { useContext, useEffect, useState } from "react";
-import { matchPath, useNavigate, useNavigation } from "react-router-dom";
-import type { LocalCartType, ProductType } from "./types";
-import { toast } from "sonner";
-import { getStoredUser } from "./auth";
-import { getCart, getProduct } from "@/services/api";
+import { AuthContext } from '@/context/auth-context';
+import { CartContext } from '@/context/cart-context';
+import { ThemeProviderContext } from '@/context/theme-context';
+import { useContext, useEffect, useState } from 'react';
+import { matchPath, useNavigate, useNavigation } from 'react-router-dom';
+import type { LocalCartType, ProductType } from './types';
+import { toast } from 'sonner';
+
+import { getCart, getProduct } from '@/services/api';
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
 
   if (context === undefined)
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error('useTheme must be used within a ThemeProvider');
 
   return context;
 };
@@ -22,7 +22,7 @@ export const useTheme = () => {
 export function useAuth() {
   const context = useContext(AuthContext);
 
-  if (!context) throw new Error("useAuth must be used inside AuthProvider!");
+  if (!context) throw new Error('useAuth must be used inside AuthProvider!');
 
   return context;
 }
@@ -30,7 +30,7 @@ export function useAuth() {
 export function useCart() {
   const context = useContext(CartContext);
 
-  if (!context) throw new Error("useCart must be used inside CartProvider!");
+  if (!context) throw new Error('useCart must be used inside CartProvider!');
 
   return context;
 }
@@ -39,8 +39,8 @@ export function useStayOnRoute(pattern: string) {
   const navigation = useNavigation();
 
   return (
-    navigation.state === "loading" &&
-    matchPath(pattern, navigation.location.pathname ?? "") !== null
+    navigation.state === 'loading' &&
+    matchPath(pattern, navigation.location.pathname ?? '') !== null
   );
 }
 
@@ -51,10 +51,10 @@ export function useAddToCart() {
 
   function addToCart(product: ProductType, count: number) {
     if (!user) {
-      toast.info("You should sign in to get your cart.", {
+      toast.info('You should sign in to get your cart.', {
         action: {
-          label: "Sign in",
-          onClick: () => navigate("/login"),
+          label: 'Sign in',
+          onClick: () => navigate('/login'),
         },
       });
 
@@ -74,10 +74,10 @@ export function useAddToCart() {
       }
     });
 
-    toast.success("Item has been added to cart.", {
+    toast.success('Item has been added to cart.', {
       action: {
-        label: "Go to Cart",
-        onClick: () => navigate("/cart"),
+        label: 'Go to Cart',
+        onClick: () => navigate('/cart'),
       },
     });
   }
@@ -89,27 +89,24 @@ export function useCartInitializer() {
   const [cartItems, setCartItems] = useState<LocalCartType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // const storedUserId = getStoredUser()?.id;
+  // Get user from useAuth to make sure the cart page is re-rendered
+  // when the user is changing;
+  // If you get user directly from storage - `const user = getStoredUser()`,
+  // it won't trigger page re-rendering!!
+  const { user } = useAuth();
 
   useEffect(() => {
-    console.log("🔍 Cart initializer starting...");
-
-    const user = getStoredUser();
-    console.log("👤 Stored user:", user);
-
     if (!user) {
-      console.log("❌ No user found, skipping cart load");
+      setCartItems([]);
       setIsLoading(false);
       return;
     }
 
     async function createCartItems(id: number) {
       try {
-        console.log("🛒 Starting cart load for user:", id);
         setIsLoading(true);
 
         const cart = await getCart(id);
-        console.log("📦 Cart data received:", cart);
 
         const products = await Promise.all(
           cart.products.map(async ({ productId, quantity }) => {
@@ -118,18 +115,16 @@ export function useCartInitializer() {
           }),
         );
 
-        console.log("✅ Cart items processed:", products);
         setCartItems(products);
       } catch (error) {
-        console.error("💥 Failed to load cart:", error);
+        console.error('Failed to load cart:', error);
       } finally {
-        console.log("🏁 Cart loading finished");
         setIsLoading(false);
       }
     }
 
     createCartItems(user.id);
-  }, [getStoredUser()?.id]);
+  }, [user?.id, user]); //  re-render cart page when user id is changed
 
   return { cartItems, setCartItems, isLoading };
 }

@@ -1,7 +1,7 @@
-import { type ReactNode } from "react";
+import { type ReactNode } from 'react';
 
-import { CartContext } from "@/context/cart-context";
-import { useCartInitializer } from "@/lib/hooks";
+import { CartContext } from '@/context/cart-context';
+import { useCartInitializer } from '@/lib/hooks';
 
 export default function CartProvider({ children }: { children: ReactNode }) {
   const { cartItems, setCartItems, isLoading } = useCartInitializer();

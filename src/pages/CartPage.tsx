@@ -1,35 +1,35 @@
 /** --- pages/cart/index.tsx --- */
-import { toast } from "sonner";
-import { Link } from "react-router-dom";
+import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
-import { useCart, useStayOnRoute } from "@/lib/hooks";
+import { useCart, useStayOnRoute } from '@/lib/hooks';
 
-import { TypographyH1 } from "@/components/typography";
-import CartSkeleton from "@/components/skeletons/CartSkeleton";
-import NoItemCartPage from "@/components/cart/NoItemCartPage";
-import CartTable from "@/components/cart/CartTable";
-import ButtonGroup from "@/components/others/ButtonGroup";
-import { Button } from "@/components/ui/button";
+import { TypographyH1 } from '@/components/typography';
+import CartSkeleton from '@/components/skeletons/CartSkeleton';
+import NoItemCartPage from '@/components/cart/NoItemCartPage';
+import CartTable from '@/components/cart/CartTable';
+import ButtonGroup from '@/components/others/ButtonGroup';
+import { Button } from '@/components/ui/button';
 
 export default function CartPage() {
   const { cartItems, isLoading: isCartLoading } = useCart();
-  const isRouteLoading = useStayOnRoute("/cart");
+  const isRouteLoading = useStayOnRoute('/cart');
 
   // Check route loading first
   if (isRouteLoading) {
-    console.log("route loading ...");
+    console.log('route loading ...');
     return <CartSkeleton />;
   }
 
   // Then check cart loading
   if (isCartLoading) {
-    console.log("cart loading ...");
+    console.log('cart loading ...');
     return <CartSkeleton />;
   }
 
   // Finally check if cart is empty
   if (cartItems && cartItems.length === 0) {
-    console.log("cart is empty");
+    console.log('cart is empty');
     return <NoItemCartPage />;
   }
 
@@ -47,7 +47,7 @@ export default function CartPage() {
       <ButtonGroup className="md:justify-end">
         <Button
           className="flex-1 cursor-pointer rounded-xs sm:order-2 md:max-w-[200px]"
-          onClick={() => toast.info("Sorry, checkout is coming soon.")}
+          onClick={() => toast.info('Sorry, checkout is coming soon.')}
         >
           Proceed to checkout
         </Button>
@@ -55,7 +55,7 @@ export default function CartPage() {
           className="flex-1 cursor-pointer rounded-xs md:max-w-[200px]"
           asChild
         >
-          <Link to={"/products"}>Go back shopping</Link>
+          <Link to={'/products'}>Go back shopping</Link>
         </Button>
       </ButtonGroup>
     </>

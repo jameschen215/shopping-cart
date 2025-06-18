@@ -13,11 +13,11 @@ vi.mock("@/lib/hooks", () => ({
 }));
 
 vi.mock("@/components/others/ProductCount", () => ({
-  default: () => <div data-testid="product-count">Mock ProductCount</div>,
+  default: () => <div data-testid="product-count" />,
 }));
 
 vi.mock("@/components/others/StarRating", () => ({
-  default: () => <div data-testid="star-rating">Mock StarRating</div>,
+  default: () => <div data-testid="star-rating" />,
 }));
 
 const mockProduct = {

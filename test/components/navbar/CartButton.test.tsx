@@ -30,6 +30,7 @@ describe("CartButton", () => {
     mockUseCart.mockReturnValue({ cartItems: [] });
 
     renderCartButton();
+
     const link = screen.getByRole("link", {
       name: /shopping cart with 0 items/i,
     });

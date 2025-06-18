@@ -1,19 +1,20 @@
-import SearchForm from "@/components/products/SearchForm";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const mockedUseLoaderData = vi.fn();
-const mockedUseNavigation = vi.fn();
-const mockedSubmit = vi.fn();
+import SearchForm from "@/components/products/SearchForm";
+
+const mockUseLoaderData = vi.fn();
+const mockUseNavigation = vi.fn();
+const mockSubmit = vi.fn();
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
-    useSubmit: () => mockedSubmit,
-    useNavigation: () => mockedUseNavigation(),
-    useLoaderData: () => mockedUseLoaderData(),
+    useSubmit: () => mockSubmit,
+    useNavigation: () => mockUseNavigation(),
+    useLoaderData: () => mockUseLoaderData(),
     Form: (props: React.ComponentPropsWithoutRef<"form">) => (
       <form {...props} />
     ),
@@ -22,12 +23,12 @@ vi.mock("react-router-dom", async () => {
 
 describe("SearchForm", () => {
   beforeEach(() => {
-    mockedSubmit.mockClear();
-    mockedUseNavigation.mockReturnValue({ location: { search: "" } });
+    mockSubmit.mockClear();
+    mockUseNavigation.mockReturnValue({ location: { search: "" } });
   });
 
   it("renders input with initial query from loader", () => {
-    mockedUseLoaderData.mockReturnValue({ q: "laptop" });
+    mockUseLoaderData.mockReturnValue({ q: "laptop" });
     render(<SearchForm />);
     const input = screen.getByPlaceholderText(/search products/i);
 
@@ -36,7 +37,7 @@ describe("SearchForm", () => {
 
   it("should debounce submit after typing", async () => {
     const user = userEvent.setup();
-    mockedUseLoaderData.mockReturnValue({ q: null });
+    mockUseLoaderData.mockReturnValue({ q: null });
 
     render(<SearchForm />);
     const input = screen.getByPlaceholderText(/search products/i);
@@ -45,15 +46,15 @@ describe("SearchForm", () => {
 
     await waitFor(
       () => {
-        expect(mockedSubmit).toHaveBeenCalled();
+        expect(mockSubmit).toHaveBeenCalled();
       },
       { timeout: 500 },
     );
   });
 
   it("should show spinner when navigating with ?q=", () => {
-    mockedUseLoaderData.mockReturnValue({ q: "test" });
-    mockedUseNavigation.mockReturnValue({ location: { search: "?q=test" } });
+    mockUseLoaderData.mockReturnValue({ q: "test" });
+    mockUseNavigation.mockReturnValue({ location: { search: "?q=test" } });
 
     render(<SearchForm />);
     const spinner = screen.getByRole("status", { hidden: true });

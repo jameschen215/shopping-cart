@@ -1,8 +1,10 @@
 /* --- @/test/services/api.test.ts --- */
 
 import productLoader from "@/pages/product/product-loader";
-import { ApiError, getProduct } from "@/services/api";
-import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
+import { ApiError } from "@/services/api";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const mockGetProduct = vi.fn();
 
 vi.mock("@/services/api", async () => {
   const actual =
@@ -10,11 +12,9 @@ vi.mock("@/services/api", async () => {
 
   return {
     ...actual,
-    getProduct: vi.fn(),
+    getProduct: () => mockGetProduct(),
   };
 });
-
-const mockedGetProduct = getProduct as unknown as Mock;
 
 describe("productLoader", () => {
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe("productLoader", () => {
   });
 
   it("should return product with valid ID", async () => {
-    mockedGetProduct.mockResolvedValueOnce({ id: 1, title: "Test Product" });
+    mockGetProduct.mockResolvedValueOnce({ id: 1, title: "Test Product" });
 
     const result = await productLoader({
       params: { productId: "1" },
@@ -44,7 +44,7 @@ describe("productLoader", () => {
   });
 
   it("should throw 404 if product is not found", async () => {
-    mockedGetProduct.mockResolvedValueOnce(undefined);
+    mockGetProduct.mockResolvedValueOnce(undefined);
 
     await expect(
       productLoader({
@@ -56,7 +56,7 @@ describe("productLoader", () => {
   });
 
   it("should throw error with ApiError status", async () => {
-    mockedGetProduct.mockRejectedValueOnce(new ApiError("Boom!", 418));
+    mockGetProduct.mockRejectedValueOnce(new ApiError("Boom!", 418));
 
     await expect(
       productLoader({
@@ -68,7 +68,7 @@ describe("productLoader", () => {
   });
 
   it("should throw 500 on unknown error", async () => {
-    mockedGetProduct.mockRejectedValueOnce(new Error("Random failure"));
+    mockGetProduct.mockRejectedValueOnce(new Error("Random failure"));
 
     await expect(
       productLoader({

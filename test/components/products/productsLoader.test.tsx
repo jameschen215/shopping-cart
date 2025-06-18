@@ -1,10 +1,11 @@
 import { productsLoader } from "@/pages/products/products-loader";
-import { getCachedProducts } from "@/services/api";
-import { describe, expect, it, vi, type Mock } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 // Mock the data layer
+const mockGetCachedProducts = vi.fn();
+
 vi.mock("@/services/api", () => ({
-  getCachedProducts: vi.fn(),
+  getCachedProducts: () => mockGetCachedProducts(),
   ApiError: class extends Error {
     status = 400;
     constructor(message: string) {
@@ -17,7 +18,7 @@ vi.mock("@/services/api", () => ({
 describe("productsLoader", () => {
   it("should return data and query if successful", async () => {
     const mockData = [{ id: 1, title: "Test Product" }];
-    (getCachedProducts as Mock).mockResolvedValueOnce(mockData);
+    mockGetCachedProducts.mockResolvedValueOnce(mockData);
 
     const request = new Request("https://localhost/products?q=test");
     const result = await productsLoader({ request });
@@ -26,7 +27,7 @@ describe("productsLoader", () => {
   });
 
   it("should throw Response with status from ApiError when unsuccessful", async () => {
-    (getCachedProducts as Mock).mockRejectedValueOnce(new Error("Not Found"));
+    mockGetCachedProducts.mockRejectedValueOnce(new Error("Not Found"));
 
     const request = new Request("https://localhost/products?q=test");
 
@@ -42,7 +43,7 @@ describe("productsLoader", () => {
   });
 
   it("throws generic 500 Response on unknown error", async () => {
-    (getCachedProducts as Mock).mockRejectedValueOnce(new Error("Boom"));
+    mockGetCachedProducts.mockRejectedValueOnce(new Error("Boom"));
 
     const request = new Request("https://localhost/products");
 

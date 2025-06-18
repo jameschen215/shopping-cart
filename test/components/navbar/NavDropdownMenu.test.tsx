@@ -7,18 +7,13 @@ import userEvent from "@testing-library/user-event";
 
 import NavDropdownMenu from "@/components/navbar/NavDropdownMenu";
 
-// type UserNameOnly = Omit<
-//   UserType,
-//   "id" | "email" | "username" | "address" | "phone"
-// >;
-
 type UserNameOnly = {
   name: UserType["name"];
 };
 
 let mockUser: UserNameOnly | null = null;
 const mockLogout = vi.fn();
-const mockNavigate = vi.fn();
+const mockUseNavigate = vi.fn();
 
 vi.mock("@/lib/hooks", () => ({
   useAuth: () => ({
@@ -32,7 +27,8 @@ vi.mock("react-router-dom", async () => {
 
   return {
     ...actual,
-    useNavigate: () => mockNavigate,
+    // Returns the mock function itself, don't run/call it
+    useNavigate: () => mockUseNavigate,
   };
 });
 
@@ -88,7 +84,7 @@ describe("NavDropdownMenu", () => {
     await user.click(logoutButton);
 
     expect(mockLogout).toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith("/");
+    expect(mockUseNavigate).toHaveBeenCalledWith("/");
     expect(toast.warning).toHaveBeenCalledWith("You are signed out.");
   });
 

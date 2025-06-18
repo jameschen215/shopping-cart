@@ -1,4 +1,3 @@
-import ProductCards from "@/components/products/ProductCards";
 import type { ProductType } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
@@ -6,12 +5,15 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
-const mockNavigate = vi.fn();
+import ProductCards from "@/components/products/ProductCards";
+
+const mockUseNavigate = vi.fn();
+
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
-    useNavigate: () => mockNavigate,
+    useNavigate: () => mockUseNavigate,
   };
 });
 
@@ -82,7 +84,7 @@ describe("ProductCards", () => {
 
     await user.click(card);
 
-    expect(mockNavigate).toHaveBeenCalledWith("/products/1");
+    expect(mockUseNavigate).toHaveBeenCalledWith("/products/1");
   });
 
   it("should navigate to product page on Enter key", async () => {
@@ -93,6 +95,6 @@ describe("ProductCards", () => {
     card.focus();
     await user.keyboard("{Enter}");
 
-    expect(mockNavigate).toHaveBeenCalledWith("/products/1");
+    expect(mockUseNavigate).toHaveBeenCalledWith("/products/1");
   });
 });

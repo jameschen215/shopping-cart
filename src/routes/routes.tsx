@@ -32,7 +32,6 @@ export const routes = [
           {
             index: true,
             Component: LandingPage,
-            // ErrorBoundary: ErrorPage,
             loader: landingPageLoader,
           },
           {

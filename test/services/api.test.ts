@@ -194,7 +194,6 @@ describe("getProducts", () => {
             reject(error);
           });
         }
-        // Never resolves => waits for abort
       });
     });
 

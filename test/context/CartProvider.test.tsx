@@ -1,9 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import * as hooks from "@/lib/hooks";
 import { useContext } from "react";
+import { render } from "@testing-library/react";
+
 import { CartContext } from "@/context/cart-context";
 import CartProvider from "@/context/CartProvider";
-import { render } from "@testing-library/react";
 import type { CartContextType } from "@/context/cart-context";
 
 describe("CartProvider", () => {
@@ -41,7 +42,6 @@ describe("CartProvider", () => {
       </CartProvider>,
     );
 
-    // ✅ Now do assertions here
     expect(receivedContext).not.toBeNull();
     expect(receivedContext!.cartItems).toHaveLength(1);
     expect(receivedContext!.cartItems[0].product.title).toBe("Test Product");

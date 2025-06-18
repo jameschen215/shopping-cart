@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { ProductType } from "@/lib/types";
 import ProductsPage from "@/pages/products/ProductsPage";
@@ -24,34 +24,26 @@ vi.mock("@/components/skeletons/ProductsSkeleton", () => ({
   default: () => <div data-testid="mock-skeleton" />,
 }));
 
-// --- Create manual "mock return value" variables ---
-let mockUseParamsReturn: Record<string, string | undefined> = {};
-let mockUseStayOnRouteReturn = false;
-let mockUseNavigationLocation: unknown = null;
-
 // --- Mock the react-router-dom hooks ---
+const mockUseParams = vi.fn();
+const mockUseNavigation = vi.fn();
+const mockUseLoaderData = vi.fn();
+
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
-    useLoaderData: () => ({
-      data: [
-        { id: 1, category: "men's clothing" },
-        { id: 2, category: "women's clothing" },
-        { id: 3, category: "electronics" },
-        { id: 4, category: "men's clothing" },
-      ],
-    }),
-    useParams: () => mockUseParamsReturn,
-    useNavigation: () => ({
-      location: mockUseNavigationLocation,
-    }),
+    useLoaderData: () => mockUseLoaderData(),
+    useParams: () => mockUseParams(),
+    useNavigation: () => mockUseNavigation(),
   };
 });
 
 // --- Also mock useStayOnRoute ---
+const mockUseStayOnRoute = vi.fn();
+
 vi.mock("@/lib/hooks", () => ({
-  useStayOnRoute: () => mockUseStayOnRouteReturn,
+  useStayOnRoute: () => mockUseStayOnRoute(),
 }));
 
 // --- Helper to render the component ---
@@ -66,10 +58,23 @@ const renderComponent = (initialEntry: string) => {
 };
 
 describe("ProductsPage", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+
+    mockUseLoaderData.mockReturnValue({
+      data: [
+        { id: 1, category: "men's clothing" },
+        { id: 2, category: "women's clothing" },
+        { id: 3, category: "electronics" },
+        { id: 4, category: "men's clothing" },
+      ],
+    });
+  });
+
   it("should render skeleton if loading or no category", () => {
-    mockUseParamsReturn = { category: "" };
-    mockUseStayOnRouteReturn = true;
-    mockUseNavigationLocation = null;
+    mockUseParams.mockReturnValue({ category: "" });
+    mockUseStayOnRoute.mockReturnValue(true);
+    mockUseNavigation.mockReturnValue(null);
 
     renderComponent("/products");
 
@@ -77,9 +82,9 @@ describe("ProductsPage", () => {
   });
 
   it("should render all products when no category is selected", () => {
-    mockUseParamsReturn = {};
-    mockUseStayOnRouteReturn = false;
-    mockUseNavigationLocation = null;
+    mockUseParams.mockReturnValue({});
+    mockUseStayOnRoute.mockReturnValue(false);
+    mockUseNavigation.mockReturnValue(null);
 
     renderComponent("/products");
 
@@ -89,9 +94,9 @@ describe("ProductsPage", () => {
   });
 
   it("should render filtered products when a category exists", () => {
-    mockUseParamsReturn = { category: "men" };
-    mockUseStayOnRouteReturn = false;
-    mockUseNavigationLocation = null;
+    mockUseParams.mockReturnValue({ category: "men" });
+    mockUseStayOnRoute.mockReturnValue(false);
+    mockUseNavigation.mockReturnValue(null);
 
     renderComponent("/products/men");
 
@@ -101,18 +106,18 @@ describe("ProductsPage", () => {
   });
 
   it("should throw error when invalid category is provided", () => {
-    mockUseParamsReturn = { category: "nonexistent" };
-    mockUseStayOnRouteReturn = false;
-    mockUseNavigationLocation = null;
+    mockUseParams.mockReturnValue({ category: "nonexistent" });
+    mockUseStayOnRoute.mockReturnValue(false);
+    mockUseNavigation.mockReturnValue(null);
 
     // Temporarily disables the output of `console.error`.
-    // const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     expect(() => renderComponent("/products/nonexistent")).toThrow(
       "Category not found",
     );
 
     // Restores `console.error` after the test is finished.
-    // errorSpy.mockRestore();
+    errorSpy.mockRestore();
   });
 });

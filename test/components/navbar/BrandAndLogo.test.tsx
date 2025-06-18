@@ -1,7 +1,8 @@
-import BrandAndLogo from "@/components/navbar/BrandAndLogo";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
+
+import BrandAndLogo from "@/components/navbar/BrandAndLogo";
 
 describe("BrandAndLogo", () => {
   it("should render the logo and brand name with correct link", () => {

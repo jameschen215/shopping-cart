@@ -1,35 +1,36 @@
-import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
-import {
-  createMemoryRouter,
-  RouterProvider,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
-import { useAuth } from "@/lib/hooks";
 import LoginPage from "@/pages/LoginPage";
 import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
 
+const mockLogin = vi.fn();
+const mockNavigate = vi.fn();
+const mockUseAuth = vi.fn();
+
 vi.mock("@/lib/hooks", () => ({
-  useAuth: vi.fn(),
+  useAuth: () => mockUseAuth(),
 }));
+
+const mockUseLocation = vi.fn();
+const mockUseNavigate = vi.fn();
+
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom");
+  return {
+    ...actual,
+    useNavigate: () => mockUseNavigate(),
+    useLocation: () => mockUseLocation,
+  };
+});
 
 vi.mock("sonner", () => ({
   toast: {
     success: vi.fn(),
   },
 }));
-
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-    useLocation: vi.fn(),
-  };
-});
 
 const renderWithRouter = () => {
   const routes = [
@@ -44,12 +45,6 @@ const renderWithRouter = () => {
 };
 
 describe("LoginPage", () => {
-  const mockLogin = vi.fn();
-  const mockNavigate = vi.fn();
-  const mockUseAuth = useAuth as Mock;
-  const mockUseNavigate = useNavigate as Mock;
-  const mockUseLocation = useLocation as Mock;
-
   const testUser = { username: "mor_2314", password: "83r5^_" };
 
   beforeEach(() => {

@@ -12,12 +12,26 @@ import ButtonGroup from "@/components/others/ButtonGroup";
 import { Button } from "@/components/ui/button";
 
 export default function CartPage() {
-  const { cartItems } = useCart();
+  const { cartItems, isLoading: isCartLoading } = useCart();
+  const isRouteLoading = useStayOnRoute("/cart");
 
-  const isLoading = useStayOnRoute("/cart");
-  if (isLoading) return <CartSkeleton />;
+  // Check route loading first
+  if (isRouteLoading) {
+    console.log("route loading ...");
+    return <CartSkeleton />;
+  }
 
-  if (cartItems.length === 0) return <NoItemCartPage />;
+  // Then check cart loading
+  if (isCartLoading) {
+    console.log("cart loading ...");
+    return <CartSkeleton />;
+  }
+
+  // Finally check if cart is empty
+  if (cartItems && cartItems.length === 0) {
+    console.log("cart is empty");
+    return <NoItemCartPage />;
+  }
 
   return (
     <>

@@ -209,6 +209,126 @@ export default function ProductCards({
 }
 ```
 
+### Vitest Module Mocking - Variable References and Hoisting
+
+**The Problem:**
+When mocking modules in Vitest, using external variables in the mock factory doesn't work as expected.
+
+**Key Concept:**
+`vi.mock()` is hoisted - it runs before other code, including variable declarations.
+
+**What Doesn't Work:**
+
+```TypeScript
+const mockUseTheme = vi.fn();  // Declared after mock runs
+
+vi.mock("@/lib/hooks", () => ({
+  useTheme: mockUseTheme,      // undefined when factory executes
+}));
+```
+
+**What Works:**
+
+```TypeScript
+// Option 1: Inline mock creation
+vi.mock("@/lib/hooks", () => ({
+  useTheme: vi.fn(),
+}));
+const mockUseTheme = useTheme as ReturnType<typeof vi.fn>;
+// This line below works as well
+// const mockUseTheme = useTheme as unknown as Mock;
+
+// Option 2: Using vi.hoisted()
+const mockUseTheme = vi.hoisted(() => vi.fn());
+
+vi.mock("@/lib/hooks", () => ({
+  useTheme: mockUseTheme,
+}));
+
+// Option 3: Function wrapper (closure) - accessed when function is called
+const mockUseTheme = vi.fn();
+vi.mock("@/lib/hooks", () => ({
+  useTheme: () => mockUseTheme(),  // Wrap in arrow function
+}));
+```
+
+### Mock Functions vs Mock Return Values - When to Use Parentheses
+
+**The Rule:**
+Whether to use parentheses `()` depends on what the hook should return:
+
+**Pattern 1: Hook Returns a Function**
+
+```TypeScript
+// Returns the mock function itself, don't run/call it
+useNavigate: () => mockUseNavigate,
+
+// Then you can test if it have been called
+expect(mockUseNavigate).toHaveBeenCalledWith('/')
+```
+
+**Pattern 2: Hook Returns Data/Object**
+
+```TypeScript
+// Calls the mock function and returns result - the theme context
+useTheme: () => mockUseTheme(),
+
+// Then you do this line:
+mockUseTheme.mockReturnValue({theme: "light", setTheme});
+// It means that mockUseTheme is just the theme context -
+// context.mockReturnValue(...)
+```
+
+### Async vs Sync Mock Factories - Variable Reference
+
+**The Problem:**
+External variable references in `vi.mock()` behave differently with `async` vs `sync` factories.
+
+**What Doesn't Work:**
+
+```TypeScript
+const mockGetProduct = vi.fn();
+
+vi.mock("@/services/api", () => ({  // Sync factory
+  getProduct: () => mockGetProduct(),  // ❌ Variable not accessible
+}));
+```
+
+**What Works:**
+
+```TypeScript
+const mockGetProduct = vi.fn();
+vi.mock("@/services/api", async () => {  // Async factory
+
+  const actual = await vi.importActual("@/services/api");
+  return {
+    ...actual,
+    getProduct: () => mockGetProduct(),  // ✅ Variable accessible
+  };
+});
+```
+
+**Key Insight:**
+_Async mock factories_ seem to handle external variable references differently than sync factories:
+
+- Sync factory: Stricter variable access during hoisting.
+- Async factory: More lenient variable access, possibly due to timing or `vi.importActual()` context.
+
+**Possible Reasons:**
+
+1. _Timing_: Async factories execute later, giving variables time to initialize
+2. _Context_: `vi.importActual()` creates different module loading context
+3. _Internal processing_: Vitest handles `async/sync` factories differently during hoisting
+
+**Practical Rule:**
+When using external variables in mock factories:
+
+- Use async factory with `vi.importActual()` for more reliable variable access
+- Or use `vi.hoisted()` for guaranteed availability
+- Avoid sync factories with _external variables_
+
+This is a subtle Vitest behavior that can cause mysterious test failures!
+
 <!-- --- divider --- -->
 
 # Acknowledge

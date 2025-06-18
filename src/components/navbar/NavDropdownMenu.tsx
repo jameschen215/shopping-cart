@@ -51,8 +51,8 @@ export default function NavDropdownMenu() {
               aria-label="Sign out"
               onClick={() => {
                 logout();
-                navigate("/");
                 toast.warning("You are signed out.");
+                navigate("/");
               }}
             >
               <LogOut />

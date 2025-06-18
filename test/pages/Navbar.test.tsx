@@ -8,19 +8,19 @@ import Navbar from "@/components/navbar/Navbar";
 
 /* Mock child components */
 vi.mock("@/components/navbar/BrandAndLogo", () => ({
-  default: () => <div>Mocked BrandAndLogo</div>,
+  default: () => <div data-testid="mock-brand-and-logo" />,
 }));
 
 vi.mock("@/components/navbar/CartButton", () => ({
-  default: () => <div>Mocked CartButton</div>,
+  default: () => <div data-testid="mock-cart-button" />,
 }));
 
 vi.mock("@/components/navbar/ModeToggle", () => ({
-  default: () => <div>Mocked ModeToggle</div>,
+  default: () => <div data-testid="mock-mode-toggle" />,
 }));
 
 vi.mock("@/components/navbar/NavDropdownMenu", () => ({
-  default: () => <div>Mocked NavDropdownMenu</div>,
+  default: () => <div data-testid="mock-nav-dropdown-menu" />,
 }));
 
 describe("Navbar", () => {
@@ -36,9 +36,9 @@ describe("Navbar", () => {
     );
 
     expect(screen.getByRole("banner")).toBeInTheDocument(); // header landmark
-    expect(screen.getByText("Mocked BrandAndLogo")).toBeInTheDocument();
-    expect(screen.getByText("Mocked CartButton")).toBeInTheDocument();
-    expect(screen.getByText("Mocked ModeToggle")).toBeInTheDocument();
-    expect(screen.getByText("Mocked NavDropdownMenu")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-brand-and-logo")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-cart-button")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-mode-toggle")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-nav-dropdown-menu")).toBeInTheDocument();
   });
 });

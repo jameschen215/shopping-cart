@@ -11,21 +11,14 @@ import {
 import { Suspense } from "react";
 
 // Mock page components for simple testing
-const MockLandingPage = () => (
-  <div data-testid="landing-page">Landing Page</div>
-);
-const MockProductsPage = () => (
-  <div data-testid="products-page">Products Page</div>
-);
-const MockProductPage = () => (
-  <div data-testid="product-page">Product Page</div>
-);
+const MockLandingPage = () => <div data-testid="landing-page" />;
+const MockProductsPage = () => <div data-testid="products-page" />;
+const MockProductPage = () => <div data-testid="product-page" />;
+const MockCartPage = () => <div data-testid="cart-page" />;
+const MockLoginPage = () => <div data-testid="login-page" />;
+const MockErrorPage = () => <div data-testid="error-page" />;
 
-const MockCartPage = () => <div data-testid="cart-page">Cart Page</div>;
-const MockLoginPage = () => <div data-testid="login-page">Login Page</div>;
-const MockErrorPage = () => <div data-testid="error-page">Error Page</div>;
-
-// ✅ Fake auth context with prop injection
+// Fake auth context with prop injection
 function ProtectedRoute({
   isAuthenticated = false,
 }: {

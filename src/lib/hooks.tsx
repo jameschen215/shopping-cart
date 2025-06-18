@@ -87,27 +87,49 @@ export function useAddToCart() {
 
 export function useCartInitializer() {
   const [cartItems, setCartItems] = useState<LocalCartType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // const storedUserId = getStoredUser()?.id;
 
   useEffect(() => {
-    const user = getStoredUser();
+    console.log("🔍 Cart initializer starting...");
 
-    if (!user) return;
+    const user = getStoredUser();
+    console.log("👤 Stored user:", user);
+
+    if (!user) {
+      console.log("❌ No user found, skipping cart load");
+      setIsLoading(false);
+      return;
+    }
 
     async function createCartItems(id: number) {
-      const cart = await getCart(id);
+      try {
+        console.log("🛒 Starting cart load for user:", id);
+        setIsLoading(true);
 
-      const products = await Promise.all(
-        cart.products.map(async ({ productId, quantity }) => {
-          const product = await getProduct(productId);
-          return { product, quantity };
-        }),
-      );
+        const cart = await getCart(id);
+        console.log("📦 Cart data received:", cart);
 
-      setCartItems(products);
+        const products = await Promise.all(
+          cart.products.map(async ({ productId, quantity }) => {
+            const product = await getProduct(productId);
+            return { product, quantity };
+          }),
+        );
+
+        console.log("✅ Cart items processed:", products);
+        setCartItems(products);
+      } catch (error) {
+        console.error("💥 Failed to load cart:", error);
+      } finally {
+        console.log("🏁 Cart loading finished");
+        setIsLoading(false);
+      }
     }
 
     createCartItems(user.id);
-  }, []);
+  }, [getStoredUser()?.id]);
 
-  return { cartItems, setCartItems };
+  return { cartItems, setCartItems, isLoading };
 }

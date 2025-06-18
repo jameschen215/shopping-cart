@@ -1,8 +1,9 @@
-import CategoryNavigation from "@/components/products/CategoryNavigation";
 import { PRODUCTS_PAGE_CATEGORIES } from "@/lib/constants";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
+
+import CategoryNavigation from "@/components/products/CategoryNavigation";
 
 describe("CategoryNavigation", () => {
   it("should render all category links", () => {
@@ -34,7 +35,6 @@ describe("CategoryNavigation", () => {
     );
     const childSpan = activeLink.querySelector("span");
 
-    expect(childSpan).toBeTruthy();
     expect(childSpan?.className).toContain("text-foreground");
   });
 });
